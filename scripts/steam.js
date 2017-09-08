@@ -8,7 +8,7 @@
 //   arturito steam daily - Show the current steam daily deal.
 
 // Author:
-//   @chrisdelcaos
+//   @cvicuna
 
 
 'use strict';
