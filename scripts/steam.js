@@ -76,7 +76,7 @@ module.exports = (robot) => {
 
     getDailyId().then(getPrice).then(data => {
 
-      msg.send(`Oferta del día: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
+      msg.send(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
     
     }).catch(err => {
 
