@@ -2,7 +2,7 @@ phantom = require 'phantom'
 USER_AGENT_STRING = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2650.0 Safari/537.36'
 
 module.exports = (robot) ->
-  robot.respond /image (.*)/i, (res) ->
+  robot.hear /image (.*)/i, (res) ->
     phantom.create().then (ph) ->
       ph.createPage().then (page) ->
         page.setting('userAgent', USER_AGENT_STRING).then ->
