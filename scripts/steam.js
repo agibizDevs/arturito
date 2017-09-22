@@ -17,19 +17,17 @@ const cheerio = require('cheerio');
 module.exports = (robot) => {
   const getBody = (uri, header=null) => {
     return new Promise((resolve, reject) => {
-
-    let request
+      let request
         if (header) {
             request = robot.http(uri).header(header.key, header.value)
         } else {
             request = robot.http(uri)
         }
         request.get()((err, res, body) => {
-
-        if (err || res.statusCode !== 200) {
-            return reject(err || new Error(`Status code ${res.statusCode}`));
-        }
-        resolve(body);
+          if (err || res.statusCode !== 200) {
+              return reject(err || new Error(`Status code ${res.statusCode}`));
+          }
+          resolve(body);
         });
     });
   }
@@ -81,7 +79,7 @@ module.exports = (robot) => {
       getSpecials().then(data => {
         for (var i = 0; i < 10; i++) { 
           getPrice(data[i]).then(data => {
-            msg.send(`Cacha hermano!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
+            msg.send(`Cacha! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
           })
             //console.log(`https://store.steampowered.com/app/${data[i]}`);
         }
@@ -102,7 +100,5 @@ module.exports = (robot) => {
       });
       //return msg.send(`Para obtener la oferta del día en _Steam_ debes usar el comando: *huemul steam daily*`)
     }
-
-
   });
 };

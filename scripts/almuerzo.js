@@ -15,7 +15,6 @@ let bebidas     = ['cerveza','agüita de hierba','piscola/roncola/whiscola','abs
 let cervezas    = ['pale ale inglesa','brown ale inglesa','barley wine','scottish ale','ale belga','trapense belga','de abadía belga','pilsner alemana/checa','dunkel alemana/checa','marzenbier alemana','bock/doppelbock/maibock','weizenbier alemana','porter/stout','su escudo nomás','IPA','APA (gringa)'];
 
 module.exports = robot => {
-
   robot.respond(/qu[ée] desayunar/gi, msg => msg.send(`Te sugiero: ${msg.random(desayuno)}`));
   robot.respond(/qu[ée] almorzar/gi, msg => msg.send(`Te sugiero: ${msg.random(almuerzo)}`));
   robot.respond(/qu[ée] cenar/gi, msg => msg.send(`Para el *anvre*: ${msg.random(cena)}`));
