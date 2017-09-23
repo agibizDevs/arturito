@@ -13,7 +13,7 @@ module.exports = function(robot) {
   robot.respond(/transantiago(.*)/i, function(msg) {
     const args = msg.match[1].split(' ')[1];
     if(args!=null){
-      msg.send("respondiendo transantiago: "+args);
+      msg.send("respondiendo transantiago: 2"+args);
     }
   });
 };
