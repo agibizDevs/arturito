@@ -29,6 +29,6 @@ const wea = [
 
 module.exports = function(robot) {
 
-  return robot.respond(/ql|rql|ctm|m[áa]tate|culiao|reculiao|remilculiao/gi, msg => msg.send( msg.random(wea)));
+  return robot.respond(/ql|rql|ctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo/gi, msg => msg.send( msg.random(wea)));
 
 };
