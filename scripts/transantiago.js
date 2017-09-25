@@ -56,7 +56,6 @@ module.exports = function(robot) {
                   msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
                 }
               });
-
             } else {
               msg.send('Error!');
             }
