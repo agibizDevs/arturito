@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+- '8'
+notifications:
+  email: false
+
+addons:
+  ssh_known_hosts:
+  - github.com
+  - 104.131.105.95
+
+before_script:
+- export TZ=America/Santiago
+
+before_deploy:
+
+deploy:
+
+cache: 
