@@ -5,27 +5,32 @@ var generar = function(){
   return rut.getNiceRut()
 }
 
+var generarPlantilla = function (items) {
+  var arrItems = [];
 
-var generarPlantilla = function (flag) {
-  var element = '<div id="template" style="height:250px; width:700px;">'+
-                    '<div  style=" width: 150px;height: 150px;background-color:'+flag.color+'; border-radius:40px; float:left; margin-right:2px;">'+
-                        '<p style="padding-left:46px;padding-top:10px; color:white; font-size:40px; "> '+
-                        flag.servicio+
-                      '</p>'+
-                    '</div>     '+
-                    '<div style=" padding-top:1px; font-weight:bold; font-size:20px;" >'+
-                        '<p>Destino :'+ flag.destino+'<p>'+
-                        '<p>Tiempo estimado :'+flag.horaprediccionbus1 +'</p>'+
-                        '<p>Siguiente bus a : '+flag.horaprediccionbus2+'</p>'+
-                    '</div>'+
-                  '</div>';
-    return element;
-};
+  items.item.forEach(function (flag) {
+    var arrField = {
+      "Recorrido": flag.servicio,
+      "value": "1ER bus "+ flag.horaprediccionbus1 + "\n 2DO bus :"+flag.horaprediccionbus2
+    };
+    arrItems.push(arrField);
+  });
 
-
-
-
-
+    var element = {
+      "attachments": [
+          {
+              "fallback": "Required plain-text summary of the attachment.",
+              "color": "#36a64f",
+              "pretext": "Consulta para la parada ",
+              "text": "Tiempo de espera recorridos",
+              "fields": arrItems,
+              "footer": "TRANSANTIAGO",
+              "footer_icon": "http://www.transantiago.cl/imagenes/paginas/20150720095411-10.png"
+          }
+      ]
+  };
+  return arrItems;
+}
 
 module.exports = function(robot) {
   robot.respond(/transantiago(.*)/i, function(msg) {
@@ -46,14 +51,11 @@ module.exports = function(robot) {
             res.setEncoding('utf-8');
             var data = JSON.parse(body);
             if (data) {
-                data.servicios.item.forEach(function (flag) {
-                  var element = generarPlantilla(flag);
-                    resp.push(element);
-                })
-
-                //convertir en imagen y retornar imagen
-                msg.send(JSON.stringify(resp));
-
+              data.servicios.item.forEach(function (flag) {
+                if(flag.horaprediccionbus1!=null){
+                  msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
+                }
+              });
             } else {
               msg.send('Error!');
             }
