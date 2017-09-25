@@ -17,7 +17,7 @@ const pago = [
     `El dia del ñato...`,
     `Me viste care' banco?`,
     `Preguntale a la Arelis`,
-    `Cuando pages el piso ql!`,
+    `Cuando pagues el piso ql!`,
     `Pobre humano...`,
     `Hoy día choro(?)`
 ];
