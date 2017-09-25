@@ -1,4 +1,3 @@
-
 // Description:
 //   arturito chorizo
 
@@ -9,7 +8,7 @@
 //   None
 
 // Commands:
-//   arturito ql|rql|ctm|m[áa]tate|culiao|reculiao|remilculiao
+//   arturito ql|rql|ctm|rctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo|te meo
 
 // Author:
 //   @cvicuna
