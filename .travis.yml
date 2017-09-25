@@ -3,7 +3,7 @@ node_js:
 - '8'
 notifications:
   email: false
-  slack: devsagibiz:1GXgGVy4qqZPcVNDSM5WQdGz
+  slack: devsagibiz:sEKQ9PVZk8r8xNj46yZB8qOG
 
 addons:
   ssh_known_hosts:
