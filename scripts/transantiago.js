@@ -51,11 +51,10 @@ module.exports = function(robot) {
             res.setEncoding('utf-8');
             var data = JSON.parse(body);
             if (data) {
-              var printingData = generarPlantilla(data.servicios);
               msg.send(`====== DATOS PARA LA PARADA : ${cod} ======`);
               data.servicios.item.forEach(function (flag) {
                 if(flag.horaprediccionbus1!=null){
-                  msg.send(`Recorrido : ${flag.servicio}, Primer bus en ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo a ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
+                  msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
                 }
               });
 
