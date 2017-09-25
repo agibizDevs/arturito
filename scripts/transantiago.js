@@ -33,7 +33,6 @@ module.exports = function(robot) {
     var resp = [];
     if(args){
       cod = args.toUpperCase();
-      msg.send("respondiendo transantiago: "+cod);
         var url = 'http://www.transantiago.cl/predictor/prediccion?codsimt='+cod+'&codser=';
         console.log("url solicitud : " + url);
         robot.http(url).get()(function (err,res,body) {
