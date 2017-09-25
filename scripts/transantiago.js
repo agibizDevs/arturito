@@ -8,12 +8,12 @@ var generar = function(){
 
 var generarPlantilla = function (flag) {
   var element = '<div id="template" style="height:250px; width:700px;">'+
-                    '<div  style=" width: 150px;height: 150px;background-color:'+flag.color+'; border-radius:40px; float:left;  ">'+
-                        '<p style="padding-left:40px;padding-top:50px; color:white; font:bold;  "> '+
+                    '<div  style=" width: 150px;height: 150px;background-color:'+flag.color+'; border-radius:40px; float:left; margin-right:2px;">'+
+                        '<p style="padding-left:46px;padding-top:10px; color:white; font-size:40px; "> '+
                         flag.servicio+
                       '</p>'+
                     '</div>     '+
-                    '<div style="float:rigth; padding-top:3px;" >'+
+                    '<div style=" padding-top:1px; font-weight:bold; font-size:20px;" >'+
                         '<p>Destino :'+ flag.destino+'<p>'+
                         '<p>Tiempo estimado :'+flag.horaprediccionbus1 +'</p>'+
                         '<p>Siguiente bus a : '+flag.horaprediccionbus2+'</p>'+
@@ -52,7 +52,7 @@ module.exports = function(robot) {
                 })
 
                 //convertir en imagen y retornar imagen
-                msg.send(resp);
+                msg.send(JSON.stringify(resp));
 
             } else {
               msg.send('Error!');
