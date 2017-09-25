@@ -28,9 +28,8 @@ var generarPlantilla = function (items) {
 
   items.item.forEach(function (flag) {
     var arrField = {
-      "title": flag.servicio,
-      "value": "1ER bus "+ flag.horaprediccionbus1 + "\n 2DO bus :"+flag.horaprediccionbus2,
-      "short":false
+      "Recorrido": flag.servicio,
+      "value": "1ER bus "+ flag.horaprediccionbus1 + "\n 2DO bus :"+flag.horaprediccionbus2
     };
     arrItems.push(arrField);
   });
@@ -49,7 +48,7 @@ var generarPlantilla = function (items) {
           }
       ]
   };
-  return element;
+  return arrItems;
 }
 
 
@@ -73,33 +72,11 @@ module.exports = function(robot) {
             res.setEncoding('utf-8');
             var data = JSON.parse(body);
             if (data) {
-              var element = 'payload= { '+
-    '"username": "SALE BOT",'+
-  '  "icon_url": "example.com/img/icon.jpg",'+
-    '"attachments": [{'+
-      '  "fallback": "This attachement isnt supported.",'+
-        '"title": "VALENTINES DAY OFFER",'+
-      '  "color": "#9C1A22",'+
-        '"pretext": "Todays list of awesome offers picked for you",'+
-        '"author_name": "Preethi",'+
-        '"author_icon": "http://media02.hongkiat.com/author/preethi.jpg",'+
-        '"fields": [{'+
-          '  "title": "Sites",'+
-          '  "value": "_<http://www.amazon.com|Amazon>_\n_<http://www.ebay.com|Ebay>_",'+
-            '"short": true'+
-      '  }, {'+
-          '  "title": "Offer Code",'+
-          '  "value": "UI90O22\n-",'+
-            '"short": true'+
-      '  }],'+
-      '  "mrkdwn_in": ["text", "fields"],'+
-    '    "text": "Just click the site names and start buying. Get *extra reduction with the offer code*, if provided.",'+
-    '    "thumb_url": "http://example.com/thumbnail.jpg"'+
-    '}]'+
-'}';
+              var printingData = generarPlantilla(data.servicios);
+              printingData.forEach(function (x) {
+                    msg.send(JSON.stringify(x));
+              })
 
-               //generarPlantilla(data.servicios);
-              msg.send(element);
             } else {
               msg.send('Error!');
             }
