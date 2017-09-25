@@ -36,6 +36,7 @@ var generarPlantilla = function (items) {
   });
 
     var element = {
+      "text": "New comic book alert!",
       "attachments": [
           {
               "fallback": "Required plain-text summary of the attachment.",
@@ -74,7 +75,7 @@ module.exports = function(robot) {
             var data = JSON.parse(body);
             if (data) {
               var element = generarPlantilla(data.servicios);
-                msg.send(JSON.stringify(element));
+              msg.send(element);
             } else {
               msg.send('Error!');
             }
