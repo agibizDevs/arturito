@@ -22,13 +22,15 @@ const wea = [
     `Seguro vo' soy muy vio zhii!`,
     `No pesco a wnes!`,
     `Y tu hermana?`,
-    `Seguro vo soy vioh!`,
+    `Una vez pa' los vioh!`,
     `Puros giles!`,
     `Ando Tapizao!`,
+    `Mas Vivaldi y menos Pavarotti!`,
+    `Me habló alguien?`
 ];
 
 module.exports = function(robot) {
 
-  return robot.respond(/ql|rql|ctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo/gi, msg => msg.send( msg.random(wea)));
+  return robot.respond(/ql|rql|ctm|rctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo|te meo/gi, msg => msg.send( msg.random(wea)));
 
 };
