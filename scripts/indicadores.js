@@ -1,5 +1,5 @@
 module.exports = function(robot) {
-  robot.respond(/indicadores(.*)/i, function(msg) {
+  robot.respond(/valor(.*)/i, function(msg) {
     const args = msg.match[1].split(' ')[1];
     var resp = [];
     if(args){
