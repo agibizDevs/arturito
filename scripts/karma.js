@@ -64,10 +64,9 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          let test = robot.brain.usersForFuzzyName(token);
-          response.send("GET: "+test);
           if (user = robot.brain.userForName(token)) {
-            return resolve([user])
+            response.send(resolve([user]));
+            return resolve([user]);
           }
 
           if (user = userForMentionName(token)) {
