@@ -64,8 +64,7 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          if (user = robot.brain.userForFuzzyName(token)) {
-            response.send(resolve([user]));
+          if (user = robot.brain.userForName(token)) {
             return resolve([user]);
           }
 
@@ -94,8 +93,7 @@ module.exports = robot => {
           .then(users => {
             let user
             if (users.length === 1) {
-              user = users[0]
-              response.send(`Debug: `+ JSON.stringify(user));              
+              user = users[0]             
               if (typeof user.karma === 'undefined' || user.karma === null) {
                 user.karma = 0
               }
