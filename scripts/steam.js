@@ -5,10 +5,11 @@
 //   "cheerio": "latest"
 
 // Commands:
-//   arturito steam daily - Show the current steam daily deal.
+//   hubot steam daily - Show the current steam daily deal.
+//   hubot steam specials [n] - Show top n steam specials.
 
 // Author:
-//   @cvicuna
+//   @chrisdelcaos
 
 
 'use strict';
@@ -19,9 +20,9 @@ module.exports = (robot) => {
     return new Promise((resolve, reject) => {
       let request
         if (header) {
-            request = robot.http(uri).header(header.key, header.value)
+            request = robot.http(uri).header(header.key, header.value);
         } else {
-            request = robot.http(uri)
+            request = robot.http(uri);
         }
         request.get()((err, res, body) => {
           if (err || res.statusCode !== 200) {
@@ -43,17 +44,11 @@ module.exports = (robot) => {
   const getSpecials = () => {
     return getBody('http://store.steampowered.com/search/?specials=1').then(body => {
       const $ = cheerio.load(body);
-      //const idAttr = $('.search_result_row').attr('data-ds-appid');
       var games = [];
       $('.search_result_row').each(function(i, elem) {
         games[i] = $(this).attr('data-ds-appid');
       });
       return games;
-      /* for (var i = 0; i < 10; i++) { 
-            console.log(`https://store.steampowered.com/app/${games[i]}`);
-      }  */ 
-      //console.log(games);
-      //<http://www.foo.com|www.foo.com>
     });
   }
 
@@ -74,31 +69,38 @@ module.exports = (robot) => {
   robot.respond(/steam(.*)/i, (msg) => {
 
     const args = msg.match[1].split(' ')[1];
+    const cant = msg.match[1].split(' ')[2];
 
     if (args == 'specials') {
-      getSpecials().then(data => {
-        for (var i = 0; i < 10; i++) { 
-          getPrice(data[i]).then(data => {
-            msg.send(`Cacha! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
-          })
-            //console.log(`https://store.steampowered.com/app/${data[i]}`);
+      if(!isNaN(cant)){ //console.log(cant);
+        if(cant <= 10){
+          getSpecials().then(data => {
+            for (var i = 0; i < cant; i++) { 
+              getPrice(data[i]).then(data => {
+                msg.send(`Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
+              })
+            }
+          }).catch(err => {
+            msg.send('Actualmente _Steam_ no responde.');
+            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
+          });
         }
-        //msg.send(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
-      }).catch(err => {
-        msg.send('Actualmente _Steam_ no responde.');
-        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
-      });
+        else{
+          msg.send('Hermano, la cantidad de ofertas debe ser menor a 10!');
+        }
+      }
+      else{
+        msg.send('Oe no po! el valor para la cantidad de ofertas no es un numero!');
+      }
     }
 
     if (args == 'daily') {
-
-      getDailyId().then(getPrice).then(data => {
+      getDailyId().then(getPrarturitoice).then(data => {
         msg.send(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
-        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
+        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
       });
-      //return msg.send(`Para obtener la oferta del día en _Steam_ debes usar el comando: *huemul steam daily*`)
     }
   });
 };
