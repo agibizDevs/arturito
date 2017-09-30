@@ -16,13 +16,25 @@
 module.exports = (robot) => {
 
   const getUserName = function(token){
-    let user = robot.brain.userForName(token);
-    return user;
+    return new Promise((resolve, reject) => {
+        let user
+        if (user = robot.brain.userName(token)) {
+          return resolve([user]);
+        }
+
+        if (user = robot-brain.userForFuzzyName(token)) {
+          return resolve([user])
+        }
+
+        if (user = robot-brain.userForFuzzyName(token)) {
+            return resolve([user])
+        }
+      })
   }
 
   robot.respond(/user(.*)/i, (msg) => {
     const userName = msg.match[1].split(' ')[1];
     var result = getUserName(userName);
-    msg.send(result);
+        msg.send(result);        
   });
 };
