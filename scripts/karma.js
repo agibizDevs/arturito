@@ -96,8 +96,8 @@ module.exports = robot => {
           .then(users => {
             let user
             if (users.length === 1) {
-              response.send(`Debug: `+ users);
               user = users[0]
+              response.send(`Debug: `+ JSON.stringify(user));              
               //console.log('user after UsersForToken: '+user);
               if (typeof user.karma === 'undefined' || user.karma === null) {
                 user.karma = 0
