@@ -64,11 +64,10 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          response.send(robot.brain.get(token));
-          //console.log(robot.brain.get(token));
+          let test = robot.brain.get(token)
+          response.send("GET: "+test);
           if (user = robot.brain.userForName(token)) {
             return resolve([user])
-            //console.log('userForNAme: '+user);
           }
 
           if (user = userForMentionName(token)) {
