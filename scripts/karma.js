@@ -64,7 +64,7 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          if (user = robot.brain.userForName(token)) {
+          if (user = robot.brain.userForFuzzyName(token)) {
             response.send(resolve([user]));
             return resolve([user]);
           }
