@@ -64,7 +64,7 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          response.send(`UsersForToken Debug: `+ robot.brain.get(token));
+          response.send(robot.brain.get(token));
           //console.log(robot.brain.get(token));
           if (user = robot.brain.userForName(token)) {
             return resolve([user])
