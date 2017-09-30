@@ -64,7 +64,8 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-
+          response.send(`UsersForToken Debug: `+ robot.brain.get(token));
+          //console.log(robot.brain.get(token));
           if (user = robot.brain.userForName(token)) {
             return resolve([user])
             //console.log('userForNAme: '+user);
@@ -91,14 +92,12 @@ module.exports = robot => {
       }
     
       const userForToken = (token, response) => {
-        console.log('userForToken: '+token);
         return usersForToken(token)
           .then(users => {
             let user
             if (users.length === 1) {
               user = users[0]
               response.send(`Debug: `+ JSON.stringify(user));              
-              //console.log('user after UsersForToken: '+user);
               if (typeof user.karma === 'undefined' || user.karma === null) {
                 user.karma = 0
               }
@@ -137,7 +136,6 @@ module.exports = robot => {
     
       const applyKarma = (userToken, op, response) => {
         const thisUser = response.message.user
-        console.log(thisUser);
         userForToken(userToken, response)
           .then(targetUser => {
 
