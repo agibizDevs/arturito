@@ -33,8 +33,12 @@ module.exports = (robot) => {
   }
 
   robot.respond(/user(.*)/i, (msg) => {
-    const userName = msg.match[1].split(' ')[1];
-    var result = getUserName(userName);
-        msg.send(result);        
+    const name = msg.match[1].split(' ')[1];
+    var users = robot.brain.usersForFuzzyName(name)
+    if(users.length == 1){
+        var user = users[0];
+        //# Do something interesting here..
+        res.send(`${name} is user - #{user}`);
+    }   
   });
 };
