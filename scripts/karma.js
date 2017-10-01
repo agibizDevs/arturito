@@ -20,12 +20,12 @@ module.exports = robot => {
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
-  const validateUserByDisplayNAme = displayname => {
+  const getUserByDisplayNAme = displayname => {
     const users = robot.brain.users();
     if(displayname != null){
         Object.keys(users).forEach(k => {
             let tempDisplayName = users[k].slack.profile.display_name.trim();
-            let nameId = users[k].id;
+            let nameId = users[k].name;
             if(displayname == tempDisplayName){
                 return nameId
             }
@@ -88,7 +88,7 @@ module.exports = robot => {
       if (user = robot.brain.userForName(token)) {
         return resolve([user])
       }
-      if(user = robot.brain.userForId(id)){
+      if(user = robot.brain.userForName(id)){
         return resolve([user])
       }
       if (user = userForMentionName(token)) {
