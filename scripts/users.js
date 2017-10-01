@@ -20,12 +20,12 @@ module.exports = (robot) => {
         let user
         if (user = robot.brain.userForName(token)) {
             console.log('userForNAME');
-          return resolve([user]);
+          return resolve(user);
         }
 
         if (user = robot.brain.usersForFuzzyName(token)) {
             console.log('usersForFuzzyName');
-            return resolve([user])
+            return resolve(user)
         }
       })
   }
