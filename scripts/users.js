@@ -31,7 +31,7 @@ module.exports = (robot) => {
     const name = msg.match[1].split(' ')[1];
     const users = robot.brain.users();
     const nameId;
-    if(name != null){
+/*     if(name != null){
         let tempName;
         Object.keys(users).forEach(k => {
             tempName = users[k].slack.profile.display_name;
@@ -40,6 +40,6 @@ module.exports = (robot) => {
                 msg.send(`tu id es: ${nameId}`);
             }
         });
-    }
+    } */
   });
 };
