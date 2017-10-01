@@ -35,9 +35,9 @@ module.exports = (robot) => {
         Object.keys(users).forEach(k => {
             let tempName = users[k].slack.profile.display_name;
             let tipo = typeof(tempName);
+            let nameId = users[k].id;
             msg.send(`user: ${nameId} - tipo: ${tipo}`);
             if(name == tempName){
-                let nameId = users[k].id;
                 msg.send(`tu id es: ${nameId}`);
             }
         });
