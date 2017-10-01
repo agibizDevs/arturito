@@ -11,7 +11,6 @@
 // Author:
 //   @chrisdelcaos
 
-
 'use strict';
 const cheerio = require('cheerio');
 
@@ -41,14 +40,12 @@ module.exports = (robot) => {
     });
   }
 
-  const getSpecials = () => {
+  const getSpecials = count => {
     return getBody('http://store.steampowered.com/search/?specials=1').then(body => {
       const $ = cheerio.load(body);
-      var games = [];
-      $('.search_result_row').each(function(i, elem) {
-        games[i] = $(this).attr('data-ds-appid');
-      });
-      return games;
+      return $('.search_result_row').slice(0, count).map(function() {
+        return $(this).attr('data-ds-appid');
+      }).get();
     });
   }
 
@@ -72,21 +69,22 @@ module.exports = (robot) => {
     const cant = msg.match[1].split(' ')[2];
 
     if (args == 'specials') {
-      if(!isNaN(cant)){ //console.log(cant);
-        if(cant <= 10){
-          getSpecials().then(data => {
-            for (var i = 0; i < cant; i++) { 
-              getPrice(data[i]).then(data => {
-                msg.send(`Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
-              })
-            }
+      if(!isNaN(cant)){
+        if(cant <= 5){
+          getSpecials(cant)
+          .then(results => Promise.all(results.map(getPrice)))
+          .then(results => {
+            const messages = results.map(data => {
+              return `Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`;
+            });
+            msg.send(messages.join('\n'));
           }).catch(err => {
             msg.send('Actualmente _Steam_ no responde.');
-            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
+            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
           });
         }
         else{
-          msg.send('Hermano, la cantidad de ofertas debe ser menor a 10!');
+          msg.send('hey!, la cantidad de ofertas debe ser menor o igual a 5!');
         }
       }
       else{
