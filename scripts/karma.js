@@ -92,10 +92,10 @@ module.exports = robot => {
       if (user = robot.brain.userForName(token)) {
         return resolve([user])
       }
-      if(user = robot.brain.userForName(id)){
+      if (user = userForMentionName(token)) {
         return resolve([user])
       }
-      if (user = userForMentionName(token)) {
+      if(user = robot.brain.userForName(id)){
         return resolve([user])
       }
       if (robot.adapter.constructor.name === 'SlackBot') {
