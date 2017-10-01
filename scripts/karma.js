@@ -28,6 +28,7 @@ module.exports = robot => {
             let nameId = users[k].name;
             console.log(`real name: ${nameId}`);
             if(displayname == tempDisplayName){
+              console.log(`your realname: ${nameId}`);
                 return nameId
             }
         });
