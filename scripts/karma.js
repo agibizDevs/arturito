@@ -20,6 +20,19 @@ module.exports = robot => {
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
+  const validateUserByDisplayNAme = displayname => {
+    const users = robot.brain.users();
+    if(displayname != null){
+        Object.keys(users).forEach(k => {
+            let tempDisplayName = users[k].slack.profile.display_name.trim();
+            let nameId = users[k].id;
+            if(displayname == tempDisplayName){
+                return nameId
+            }
+        });
+    }
+  }
+
   const userForMentionName = mentionName => {
     const users = robot.brain.users()
     return Object.keys(users).map(key => users[key]).find(user => mentionName === user.mention_name)
@@ -67,9 +80,15 @@ module.exports = robot => {
   }
 
   const usersForToken = token => {
+
+    const id = validateUserByDisplayNAme(token);
+
     return new Promise((resolve, reject) => {
       let user
       if (user = robot.brain.userForName(token)) {
+        return resolve([user])
+      }
+      if(user = robot.brain.userForId(id)){
         return resolve([user])
       }
       if (user = userForMentionName(token)) {
