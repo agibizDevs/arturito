@@ -25,7 +25,7 @@ module.exports = robot => {
     if(displayname != null){
         Object.keys(users).forEach(k => {
             let tempDisplayName = users[k].slack.profile.display_name.trim();
-            let nameId = users[k].name;
+            let nameId = users[k].name.toString();
             if(displayname == tempDisplayName){
                 return nameId
             }
@@ -82,7 +82,7 @@ module.exports = robot => {
   const usersForToken = token => {
 
     const id = getUserByDisplayNAme(token);
-
+    console.log(`username: ${id} tipo: ${typeof(id)}`);
     return new Promise((resolve, reject) => {
       let user
       if (user = robot.brain.userForName(token)) {
@@ -190,6 +190,8 @@ module.exports = robot => {
       const opRegex = /(\+{2}|-{2})/g
       const specialChars = /@/
       const userToken = token.trim().replace(specialChars, '').replace(opRegex, '')
+      let usertemp1 = typeof(userToken)
+      console.log(`user: ${userToken} - tipo: ${usertemp1}`)
       const op = token.match(opRegex)[0]
       applyKarma(userToken, op, response)
     })
