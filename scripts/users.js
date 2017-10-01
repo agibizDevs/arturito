@@ -32,7 +32,15 @@ module.exports = (robot) => {
 
   robot.respond(/user(.*)/i, (msg) => {
     const name = msg.match[1].split(' ')[1];
-    var users = robot.brain.usersForFuzzyName(name);
+    const users = robot.brain.users()
+    if(name == 'todos'){
+        Object.keys(users).forEach(k => {
+            
+            msg.send(`usuarios : ${users[k].slack.profile.display_name}`);
+          });
+    }
+
+/*     var users = robot.brain.usersForFuzzyName(name);
     var users2 = robot.brain.userForName(name);
     //var users = getUserName(name);
     if(users != null && users.length > 0){
@@ -52,6 +60,6 @@ module.exports = (robot) => {
     }     
     else{
         msg.send(`no se encontraron datos2 para ${name}`);
-    }
+    } */
   });
 };
