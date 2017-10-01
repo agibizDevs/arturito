@@ -32,8 +32,10 @@ module.exports = (robot) => {
     const users = robot.brain.users();
     const nameId;
     if(name != null){
+        let tempName;
         Object.keys(users).forEach(k => {
-            if(name == users[k].slack.profile.display_name){
+            tempName = users[k].slack.profile.display_name;
+            if(name == tempName){
                 nameId = users[k].id;
                 msg.send(`tu id es: ${nameId}`);
             }
