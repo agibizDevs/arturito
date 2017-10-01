@@ -30,14 +30,29 @@ module.exports = (robot) => {
       })
   }
 
+  const getUsernameById = function(id){
+    const name;
+    if(id != null){
+        const users = robot.brain.users();
+        Object.keys(users).forEach(k => {
+            if(id == users[k].id){
+                return users[k].name;
+            }
+        });
+    }
+  }
+
   robot.respond(/user(.*)/i, (msg) => {
     const name = msg.match[1].split(' ')[1];
     const users = robot.brain.users()
-    if(name == 'todos'){
+    const nameId;
+    if(name != null){
         Object.keys(users).forEach(k => {
-            
-            msg.send(`usuarios : ${users[k].slack.profile.display_name}`);
-          });
+            if(name == users[k].slack.profile.display_name){
+                nameId = users[k].id;
+                msg.send(`tu id es: ${nameId}`);
+            }
+        });
     }
 
 /*     var users = robot.brain.usersForFuzzyName(name);
