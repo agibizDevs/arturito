@@ -25,7 +25,8 @@ module.exports = robot => {
     if(displayname != null){
         Object.keys(users).forEach(k => {
             let tempDisplayName = users[k].slack.profile.display_name.trim();
-            let nameId = users[k].name.toString();
+            let nameId = users[k].name;
+            console.log(`real name: ${nameId}`);
             if(displayname == tempDisplayName){
                 return nameId
             }
