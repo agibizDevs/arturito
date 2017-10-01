@@ -30,7 +30,7 @@ module.exports = (robot) => {
   robot.respond(/user(.*)/i, (msg) => {
     const name = msg.match[1].split(' ')[1];
     const users = robot.brain.users();
-    const nameId;
+    //const nameId;
 /*     if(name != null){
         let tempName;
         Object.keys(users).forEach(k => {
