@@ -22,19 +22,18 @@ module.exports = robot => {
 
   const getUserByDisplayNAme = displayname => {
     const users = robot.brain.users();
-    var return2 = '';
+    var realUserame = '';
     if(displayname != null){
         Object.keys(users).forEach(k => {
             let tempDisplayName = users[k].slack.profile.display_name.trim();
-            let nameId = users[k].name;
-            console.log(`real name: ${nameId}`);
+            let name = users[k].name;
             if(displayname == tempDisplayName){
-              return2 = nameId;
-              console.log(`your realname: ${return2}`);
+              realUserame = name;
+              console.log(`your realname: ${realUserame}`);
             }
         });
     }
-    return return2;
+    return realUserame;
   }
 
   const userForMentionName = mentionName => {
@@ -85,8 +84,8 @@ module.exports = robot => {
 
   const usersForToken = token => {
 
-    const id = getUserByDisplayNAme(token);
-    console.log(`username: ${id} tipo: ${typeof(id)}`);
+    const name = getUserByDisplayNAme(token);
+
     return new Promise((resolve, reject) => {
       let user
       if (user = robot.brain.userForName(token)) {
@@ -95,7 +94,7 @@ module.exports = robot => {
       if (user = userForMentionName(token)) {
         return resolve([user])
       }
-      if(user = robot.brain.userForName(id)){
+      if(user = robot.brain.userForName(name)){
         return resolve([user])
       }
       if (robot.adapter.constructor.name === 'SlackBot') {
@@ -194,8 +193,6 @@ module.exports = robot => {
       const opRegex = /(\+{2}|-{2})/g
       const specialChars = /@/
       const userToken = token.trim().replace(specialChars, '').replace(opRegex, '')
-      let usertemp1 = typeof(userToken)
-      console.log(`user: ${userToken} - tipo: ${usertemp1}`)
       const op = token.match(opRegex)[0]
       applyKarma(userToken, op, response)
     })
