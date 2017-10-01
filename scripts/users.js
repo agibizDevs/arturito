@@ -34,12 +34,11 @@ module.exports = (robot) => {
     const name = msg.match[1].split(' ')[1];
     var users = robot.brain.usersForFuzzyName(name);
     var users2 = robot.brain.userForName(name);
-    var user3 = robot.brain.userName(name);
     //var users = getUserName(name);
     if(users != null && users.length > 0){
         let user = users[0];
         //# Do something interesting here..
-        msg.send(`${name} is user - ${JSON.stringify(user)}`);
+        msg.send(`${name} is user - ${JSON.stringify(users)}`);
         console.log(user);
     }   
     else{
@@ -48,20 +47,11 @@ module.exports = (robot) => {
     if(users2 != null && users2.length > 0){
         let user = users2[0];
         //# Do something interesting here..
-        msg.send(`${name} is user2 - ${JSON.stringify(user)}`);
+        msg.send(`${name} is user2 - ${JSON.stringify(users)}`);
         console.log(user);
     }     
     else{
         msg.send(`no se encontraron datos2 para ${name}`);
-    }
-    if(users3 != null && users3.length > 0){
-        let user = users3[0];
-        //# Do something interesting here..
-        msg.send(`${name} is user3 - ${JSON.stringify(user)}`);
-        console.log(user);
-    }     
-    else{
-        msg.send(`no se encontraron datos3 para ${name}`);
     }
   });
 };
