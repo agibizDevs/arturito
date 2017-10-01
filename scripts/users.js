@@ -38,13 +38,13 @@ module.exports = (robot) => {
     if(users != null && users.length > 0){
         let user = users[0];
         //# Do something interesting here..
-        msg.send(`${name} is user - ${user}`);
+        msg.send(`${name} is user - ${JSON.stringify(user)}`);
         console.log(user);
     }   
     if(users2 != null && users2.length > 0){
         let user = users2[0];
         //# Do something interesting here..
-        msg.send(`${name} is user2 - ${user.name}`);
+        msg.send(`${name} is user2 - ${JSON.stringify(user)}`);
         console.log(user);
     }     
   });
