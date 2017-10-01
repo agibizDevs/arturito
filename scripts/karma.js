@@ -22,6 +22,24 @@ module.exports = robot => {
       const hubotWebSite = `${hubotHost}/${robot.name}`
       const getCleanName = name => `${name[0]}.${name.substr(1)}`
     
+
+      const getUserNameByDisplayName = displayName => {
+        const users = robot.brain.users();
+        if(displayName != null){
+          Object.keys(users).forEach(k => {
+              let tempName = users[k].slack.profile.display_name.trim();
+              let name = users[k].name;
+              if(displayName != name){
+                if(displayName == tempName){
+                  return name;
+                }
+              } else {
+                return name;
+              }
+          });
+        }
+      }
+
       const userForMentionName = mentionName => {
     
         const users = robot.brain.users()
@@ -64,7 +82,7 @@ module.exports = robot => {
       const usersForToken = token => {
         return new Promise((resolve, reject) => {
           let user
-          if (user = robot.brain.userName(token)) {
+          if (user = robot.brain.userForName(token)) {
             return resolve([user]);
           }
 
@@ -84,10 +102,9 @@ module.exports = robot => {
             user = robot.brain.usersForFuzzyName(token)
             resolve(user)
           }
-
         })
       }
-    
+
       const userForToken = (token, response) => {
         return usersForToken(token)
           .then(users => {
@@ -99,7 +116,9 @@ module.exports = robot => {
               }
             } else if (users.length > 1) {
               robot.messageRoom(`@${response.message.user.name}`, `Se más específico, hay ${users.length} personas que se parecen a: ${users.map(user => user.name).join(', ')}.`)
-            } else {
+            }
+             else {
+               
               response.send(`Chaucha, no encuentro al usuario '${token}'.`)
             }
             return user
@@ -179,8 +198,9 @@ module.exports = robot => {
           const opRegex = /(\+{2}|-{2})/g
           const specialChars = /@/
           const userToken = token.trim().replace(specialChars, '').replace(opRegex, '')
+          const user = getUserNameByDisplayName(userToken);
           const op = token.match(opRegex)[0]
-          applyKarma(userToken, op, response)
+          applyKarma(user, op, response)
         })
 
       })

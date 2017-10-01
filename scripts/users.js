@@ -37,8 +37,6 @@ module.exports = (robot) => {
         Object.keys(users).forEach(k => {
             let tempName = users[k].slack.profile.display_name.trim();
             let nameId = users[k].id;
-            msg.send(`user redis: ${tempName}`);
-            msg.send(`user typed: ${name}`);
             if(name == tempName){
                 msg.send(`username: ${nameId}`);
             }
