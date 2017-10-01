@@ -32,8 +32,8 @@ module.exports = (robot) => {
 
   robot.respond(/user(.*)/i, (msg) => {
     const name = msg.match[1].split(' ')[1];
-    //var users = robot.brain.usersForFuzzyName(name);
-    var users = getUserName(name);
+    var users = robot.brain.usersForFuzzyName(name);
+    //var users = getUserName(name);
     console.log(users);
     if(users.length > 0){
         var user = users[0];
