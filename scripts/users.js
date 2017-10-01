@@ -27,26 +27,21 @@ module.exports = (robot) => {
     }
 
     const getIdByDisplayName = name => {
-        const users = robot.brain.users();
-        if(name != null){
-            let tempName;
-            Object.keys(users).forEach(k => {
-                let tempName = users[k].slack.profile.display_name.trim;
-                let tipo = typeof(tempName);
-                let nameId = users[k].id;
-                //msg.send(`user: ${tempName} - tipo: ${tipo}`);
-                if(name == tempName){
-                    return nameId;
-                }
-            });
-        }
+        
     }
 
   robot.respond(/user(.*)/i, (msg) => {
     const name = msg.match[1].split(' ')[1].trim;
-    let id = getIdByDisplayName(name);
-    msg.send(`${name} - id: ${id}`);
-    let username = getUsernameById(id);
-    msg.send(`username: ${username}`);
+    const users = robot.brain.users();
+    if(name != null){
+        Object.keys(users).forEach(k => {
+            let tempName = users[k].slack.profile.display_name;
+            let nameId = users[k].id;
+            msg.send(`user: ${tempName} - tipo: ${tipo}`);
+            if(name == tempName){
+                msg.send(`username: ${nameId}`);
+            }
+        });
+    }
   });
 };
