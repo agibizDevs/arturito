@@ -34,23 +34,18 @@ module.exports = (robot) => {
     const name = msg.match[1].split(' ')[1];
     var users = robot.brain.usersForFuzzyName(name);
     var users2 = robot.brain.userForName(name);
-    var users3 = robot.brain.userForFuzzyName(name);
     //var users = getUserName(name);
-    console.log(users);
-    if(users.length > 0){
+    if(users != null && users.length < 1){
         let user = users[0];
         //# Do something interesting here..
-        res.send(`${name} is user - ${user}`);
+        msg.send(`${name} is user - ${user}`);
+        console.log(user);
     }   
-    if(users2.length > 0){
+    if(users2 != null && users2.length < 1){
         let user = users2[0];
         //# Do something interesting here..
-        res.send(`${name} is user2 - ${user}`);
-    }   
-    if(users3.length > 0){
-        let user = users3[0];
-        //# Do something interesting here..
-        res.send(`${name} is user3 - ${user}`);
-    }   
+        msg.send(`${name} is user2 - ${user}`);
+        console.log(user);
+    }     
   });
 };
