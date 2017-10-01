@@ -31,13 +31,14 @@ module.exports = (robot) => {
     }
 
   robot.respond(/user(.*)/i, (msg) => {
-    const name = msg.match[1].split(' ')[1].trim;
+    const name = msg.match[1].split(' ')[1].trim();
     const users = robot.brain.users();
     if(name != null){
         Object.keys(users).forEach(k => {
-            let tempName = users[k].slack.profile.display_name;
+            let tempName = users[k].slack.profile.display_name.trim();
             let nameId = users[k].id;
-            msg.send(`user: ${tempName}`);
+            msg.send(`user redis: ${tempName}`);
+            msg.send(`user typed: ${name}`);
             if(name == tempName){
                 msg.send(`username: ${nameId}`);
             }
