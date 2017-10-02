@@ -4,10 +4,10 @@ El repositorio de Arturito queda abierto para todos los miembros de [Agibiz Deve
 
 En la medida que sea posible todo script *complejo* que se quiera agregar debería ser su propio paquete de npm, ya sea el original o un fork con los cambios en esta organización u otra parte. **Una buena regla es que si tu script tiene dependencias debería ser su propio paquete, sino puede ir en la carpeta de scripts.**
 ## Pre-Requisitos:
-- Git.
-- NodeJS v8.4+.
-- NPM
-- Tu editor de código favorito. (VS Code, Atom, Sublime Text)
+- [Git](https://git-scm.com/download/).
+- [NodeJS v8.4+](https://nodejs.org/es/download/current/).
+- NPM (Viene con NodeJS de forma automatica)
+- Tu editor de código favorito. ([VS Code](https://code.visualstudio.com/download), [Atom](https://atom.io/), [Sublime Text](https://www.sublimetext.com/3))
 
 ## Pasos:
 
