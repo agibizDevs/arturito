@@ -1,4 +1,13 @@
-//http://www.transantiago.cl/predictor/prediccion?codsimt=PA420&codser=504
+//   Get time and distances of transantiago bus stop.
+
+
+// Commands:
+//   arturito transantiago {CODIGOPARADA}
+
+// Author:
+//   @rorogallardo
+
+
 var generar = function(){
   var num_aleatorio = Math.round(Math.random()*(25000000-5000000))+5000000;
   var rut = new Rut(num_aleatorio.toString(), true);
@@ -42,6 +51,7 @@ module.exports = function(robot) {
         console.log("url solicitud : " + url);
         robot.http(url).get()(function (err,res,body) {
           if(err || res.statusCode !==200){
+            console.log("Solicitud incorrecta, detalles: "+ cod);
             msg.send('Algo pasó, intente nuevamente.');
             return robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
           }
@@ -57,7 +67,7 @@ module.exports = function(robot) {
                 }
               });
             } else {
-              msg.send('Error!');
+              msg.send('Error, porfavor, re-intente en un minuto');
             }
           }
         });
