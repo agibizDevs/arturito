@@ -20,9 +20,11 @@ module.exports = robot => {
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
-  const getUserByDisplayNAme = displayname => {
+  const getUserByDisplayName = displayname => {
     const users = robot.brain.users();
-    var realUserame = '';
+    console.log(JSON.stringify(Object.keys(users).map(key => users[key])));
+    return Object.keys(users).map(key => users[key]).find(user => displayname === user.display_name)
+    /* var realUserame = '';
     if(displayname != null){
         Object.keys(users).forEach(k => {
             let tempDisplayName = users[k].slack.profile.display_name.trim();
@@ -33,7 +35,7 @@ module.exports = robot => {
             }
         });
     }
-    return realUserame;
+    return realUserame; */
   }
 
   const userForMentionName = mentionName => {
