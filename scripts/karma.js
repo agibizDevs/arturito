@@ -20,28 +20,14 @@ module.exports = robot => {
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
-  const getUserByDisplayName = displayname => {
-    const users = robot.brain.users();
-    //console.log(JSON.stringify(Object.keys(users).map(key => users[key])));
-    console.log(Object.keys(users).map(key => users[key]).find(user => displayname === user.slack.profile.display_name))
-    return Object.keys(users).map(key => users[key]).find(user => displayname === user.slack.profile.display_name)
-    /* var realUserame = '';
-    if(displayname != null){
-        Object.keys(users).forEach(k => {
-            let tempDisplayName = users[k].slack.profile.display_name.trim();
-            let name = users[k].name;
-            if(displayname == tempDisplayName){
-              realUserame = name;
-              console.log(`your realname: ${realUserame}`);
-            }
-        });
-    }
-    return realUserame; */
-  }
-
   const userForMentionName = mentionName => {
     const users = robot.brain.users()
     return Object.keys(users).map(key => users[key]).find(user => mentionName === user.mention_name)
+  }
+
+  const getUserByDisplayName = displayname => {
+    const users = robot.brain.users();
+    return Object.keys(users).map(key => users[key]).find(user => displayname === user.slack.profile.display_name)
   }
 
   const userFromWeb = token => {
@@ -86,10 +72,6 @@ module.exports = robot => {
   }
 
   const usersForToken = token => {
-
-/*     const name = getUserByDisplayName(token);
-    console.log(name); */
-
     return new Promise((resolve, reject) => {
       let user
       if (user = robot.brain.userForName(token)) {
