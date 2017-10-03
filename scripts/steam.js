@@ -41,12 +41,16 @@ module.exports = (robot) => {
   }
 
   const getSpecials = count => {
-    return getBody('http://store.steampowered.com/search/?specials=1').then(body => {
-      const $ = cheerio.load(body);
-      return $('.search_result_row').slice(0, count).map(function() {
-        return $(this).attr('data-ds-appid');
-      }).get();
+    return new Promise((resolve, reject) => {
+      getBody('http://store.steampowered.com/search/?specials=1').then(body => {
+        const $ = cheerio.load(body);
+        let games = $('.search_result_row').slice(0, count).map(function() {
+          return $(this).attr('data-ds-appid');
+        }).get();
+        resolve(games);
+      });
     });
+
   }
 
   const getPrice = id => {
@@ -71,20 +75,19 @@ module.exports = (robot) => {
     if (args == 'specials') {
       if(!isNaN(cant)){
         if(cant <= 5){
-          getSpecials(cant)
-          .then(results => Promise.all(results.map(getPrice)))
-          .then(results => {
-            const messages = results.map(data => {
-              return `Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`;
+          getSpecials(cant).then(data => {
+              for (var i = 0; i < cant; i++) { 
+                getPrice(data[i]).then(data => {
+                  msg.send(`Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
+                })
+              }
+            }).catch(err => {
+              msg.send('Actualmente _Steam_ no responde.');
+              robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
             });
-            msg.send(messages.join('\n'));
-          }).catch(err => {
-            msg.send('Actualmente _Steam_ no responde.');
-            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
-          });
         }
         else{
-          msg.send('hey!, la cantidad de ofertas debe ser menor o igual a 5!');
+          msg.send('¡Hey!, la cantidad de ofertas debe ser menor o igual a 5!');
         }
       }
       else{
@@ -93,8 +96,8 @@ module.exports = (robot) => {
     }
 
     if (args == 'daily') {
-      getDailyId().then(getPrarturitoice).then(data => {
-        msg.send(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
+      getDailyId().then(getPrice).then(data => {
+      msg.send(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! ${data.uri}`);
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
