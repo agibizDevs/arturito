@@ -75,16 +75,20 @@ module.exports = (robot) => {
     if (args == 'specials') {
       if(!isNaN(cant)){
         if(cant <= 5){
-          getSpecials(cant).then(data => {
-              for (var i = 0; i < cant; i++) { 
-                getPrice(data[i]).then(data => {
-                  msg.send(`Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|link>`);
-                })
-              }
-            }).catch(err => {
-              msg.send('Actualmente _Steam_ no responde.');
-              robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+          getSpecials(cant)
+          .then(results => {
+            const promises = results.map(result => getPrice(result));
+            return Promise.all(promises);
+          })
+          .then(results => {
+            const messages = results.map(data => {
+              return `Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|var más>`;
             });
+            msg.send(messages.join('\n'));
+          }).catch(err => {
+            msg.send('Actualmente _Steam_ no responde.');
+            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+          });
         }
         else{
           msg.send('¡Hey!, la cantidad de ofertas debe ser menor o igual a 5!');
@@ -104,4 +108,4 @@ module.exports = (robot) => {
       });
     }
   });
-};
+}
