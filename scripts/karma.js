@@ -86,7 +86,7 @@ module.exports = robot => {
 
   const usersForToken = token => {
 
-    const name = getUserByDisplayNAme(token);
+    const name = getUserByDisplayName(token);
 
     return new Promise((resolve, reject) => {
       let user
