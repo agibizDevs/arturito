@@ -22,7 +22,7 @@ module.exports = robot => {
 
   const getUserByDisplayName = displayname => {
     const users = robot.brain.users();
-    console.log(JSON.stringify(Object.keys(users).map(key => users[key])));
+    //console.log(JSON.stringify(Object.keys(users).map(key => users[key])));
     return Object.keys(users).map(key => users[key]).find(user => displayname === user.display_name)
     /* var realUserame = '';
     if(displayname != null){
@@ -87,6 +87,7 @@ module.exports = robot => {
   const usersForToken = token => {
 
     const name = getUserByDisplayName(token);
+    console.log(name);
 
     return new Promise((resolve, reject) => {
       let user
@@ -96,9 +97,9 @@ module.exports = robot => {
       if (user = userForMentionName(token)) {
         return resolve([user])
       }
-      if(user = robot.brain.userForName(name)){
+      /* if(user = robot.brain.userForName(name)){
         return resolve([user])
-      }
+      } */
       if (robot.adapter.constructor.name === 'SlackBot') {
         userFromWeb(token).then(webUser => {
           if (webUser) {
