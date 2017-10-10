@@ -17,9 +17,8 @@ En la medida que sea posible todo script *complejo* que se quiera agregar deber�
 
 --
 
-
 - Para probar tus cambios localmente: `$ bin/hubot` y activarás a Arturito. Ahora ya podrás invocarlo junto con sus comandos y los que hayas escrito.
-- Para enviar tus cambios a Huemul, los pasos son:
+- Para enviar tus cambios a Arturito, los pasos son:
   - Haz un [_pull request_](https://github.com/agibizDevs/arturito/pulls) y explica lo que hiciste. Agrega el comando para probarlo en el comentario.
   - Agrega como reviewer a [@chrisdelcaos](https://devsagibiz.slack.com/messages/arturito-devs/team/cvicuna/) y será revisado, testeado, linteado y, si pasa los rigurosos análisis, será agregado.
 -  Para más información sobre *Hubot* consulta [Hubot Documentation > Scripting](https://hubot.github.com/docs/scripting/).
