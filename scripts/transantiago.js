@@ -55,20 +55,21 @@ module.exports = function(robot) {
             msg.send('Algo pasó, intente nuevamente.');
             return robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
           }
-          if (body.indexOf('<') > -1) {
-            msg.send('Error, verifique el codigo de paradero');
-          }else{
-            res.setEncoding('utf-8');
-            var data = JSON.parse(body);
-            if (data) {
-              data.servicios.item.forEach(function (flag) {
-                if(flag.horaprediccionbus1!=null){
-                  msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
-                }
-              });
-            } else {
-              msg.send('Error, porfavor, re-intente en un minuto');
-            }
+          res.setEncoding('utf-8');
+          var data = JSON.parse(body);
+          if(data.respuestaParadero.includes("invalido")){
+            msg.send("Código de parada incorrecto, verifique y re-intente");
+          }
+          if (data) {
+            data.servicios.item.forEach(function (flag) {
+              if(flag.horaprediccionbus1!=null){
+                msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
+              }else if(flag.respuestaServicio.includes("Fuera")){
+                msg.send(`Recorrido : ${flag.servicio} Fuera de horario de operación.`);
+              }
+            });
+          } else {
+            msg.send('Error, porfavor, re-intente en un minuto');
           }
         });
     }
