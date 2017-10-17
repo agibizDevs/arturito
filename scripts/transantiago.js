@@ -64,7 +64,7 @@ module.exports = function(robot) {
           if (data) {
             data.servicios.item.forEach(function (flag) {
               if(!flag.respuestaServicio.includes("Fuera")){
-                msg.send(`:bus: Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
+                msg.send(`:bus: Recorrido : ${flag.servicio}, Primer bus : :id: [ ${flag.ppubus1} ] ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : :id: [ ${flag.ppubus2} ] ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
               }else{
                 msg.send(`:warning: Recorrido : ${flag.servicio} Fuera de horario de operación.`);
               }
