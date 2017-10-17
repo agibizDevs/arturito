@@ -33,6 +33,18 @@ module.exports = (robot) => {
     });
   }
 
+  const getGameDesc = game => {
+    return new Promise((resolve, reject) => {
+      getBody(`http://store.steampowered.com/search/?term=${game}`).then(body => {
+        const $ = cheerio.load(body);
+        let games = $('.search_result_row').slice(0, 1).map(function() {
+          return $(this).attr('data-ds-appid');
+        }).get();
+        resolve(games);
+      });
+    })
+  }
+
   const getDailyId = () => {
     return new Promise ((resolve, reject) => {
       getBody('http://store.steampowered.com').then(body => {
@@ -40,7 +52,6 @@ module.exports = (robot) => {
           const idAttr = $('.dailydeal_desc .dailydeal_countdown').attr('id');
           var gameId = idAttr.substr(idAttr.length - 6);
           gameId = gameId.replace(/_/gi, "");
-          console.log(gameId);
           resolve(gameId);
         })
       })
@@ -65,12 +76,13 @@ module.exports = (robot) => {
     return new Promise((resolve, reject) => {
       const data = getBody(uri, {key: 'cookie', value: cookie}).then(body => {
         const game = JSON.parse(body)[id].data;
+        const desc = game.short_description;
         const name = game.name;
         const price = game.price_overview;
         const final = price.final / 100;
         const initial = price.initial / 100;
         const discount = price.discount_percent;
-        return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`};
+        return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`, description: desc};
       })
       resolve(data);
     })
@@ -125,5 +137,15 @@ module.exports = (robot) => {
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
       });
     }
+
+    if (args != 'daily' && args != 'specials'){
+      getGameDesc(args).then(getPrice).then(data => {
+        console.log(data);//const promises = results.map(result => getPrice(result));
+      }).catch(err => {
+        msg.send('Actualmente _Steam_ no responde.');
+        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+      });
+    }
+
   });
 }
