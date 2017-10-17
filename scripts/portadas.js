@@ -17,92 +17,50 @@ const {whilst} = require('async')
 const endpointHxh = 'http://www.hoyxhoy.cl/endpoints/for-soy.php?action=get-latest&size=550'
 const listaPortadas = () => {
 
-  return `
-
+return `
   *Chile:*
-
     (el)? mercurio ((de)? calama|antofa(gasta)?|valpara(í|i)so|valpo)?
-
     (la)? estrella ((del?)? arica|iquique|loa|antofa(gasta)?|tocopilla|valpara(í|i)so|valpo|quillota|concepci(ó|o)n|chilo(é|e))
-
     (el)? sur
-
     (el)? austral ((de)? temuco|valdivia|osorno)
-
     (el)? llanquihue
-
     (el)? l(í|i)der (de san antonio)?
-
     (el)? diario (de)? atacama
-
     cr(ó|o)nica chill(á|a)n
-
     (hoyxhoy|hxh)
-
     lun
-
     (el)? mercurio
-
     (la)? cuarta
-
   *Uruguay:*
-
     (el)? pais (uruguay|uru|uy)
-
   *Brasil:*
-
     (o)? globo
-
     folha
-
   *Colombia:*
-
     (el)? tiempo
-
   *Mexico:*
-
     (el)? financiero
-
   *USA*
-
     ((the)? wall street journal)|wsj
-
     (the)? washington post
-
     usa today
-
   *Francia:*
-
     (le)? monde
-
   *España:*
-
     (el)? pais
-
   *United Kingdom:*
-
     (the)? times
-
   *Italia:*
-
     (il)? corriere (della sera)?
-
   `
-
 }
-
-
 
 const formatDate = (date, noSlashes = false) => {
 
   if (noSlashes) {
-
     return date.format('YYYYMMDD')
-
   } else {
-
     return date.format('YYYY/MM/DD')
-
   }
 
 }
@@ -111,44 +69,26 @@ const getPortada = (res, diario, daysPast, cb) => {
 
   let ready = true
   let testUrl = 'No existe portada de este diario por los últimos 5 días.'
-
   whilst(
-
     () => ready,
-
     callback => {
-
       if (daysPast > 5) {
-
         ready = false
         callback(null)
-
       } else {
-
         const fecha = moment().subtract(daysPast, 'days')
-
         testUrl = diario.url.replace('#DATE#', formatDate(fecha, diario.noSlashes))
-
         res.http(testUrl).get()((err, response, body) => {
-
           if (err) return callback(err)
-
           if (response.statusCode === 404) {
-
             daysPast++
             callback(null, testUrl)
-
           } else if (response.statusCode === 200) {
-
             ready = false
-
             if (testUrl === endpointHxh) {
-
               try {
-
                 testUrl = JSON.parse(body)[0].img
                 callback(null, testUrl)
-
               } catch (err) {
                 callback(err)
               }
@@ -156,9 +96,7 @@ const getPortada = (res, diario, daysPast, cb) => {
               callback(null, testUrl)
             }
           } else {
-
             callback(new Error(`Status code is ${response.statusCode} with url ${testUrl}`))
-
           }
         })
       }
@@ -172,7 +110,6 @@ module.exports = robot => {
   robot.respond(/portada (.*)/i, res => {
 
     const nombre = res.match[1]
-
       .replace(/^(las |la |el |le |the |o |il )/, '')
       .replace(/( de | del | de la )/, '').replace(/( )/g, '')
       .replace(/antofagasta$/, 'antofa')
@@ -185,7 +122,6 @@ module.exports = robot => {
       .replace(/chiloé$/, 'chiloe')
 
     const diarios = {
-
       lun: {
         url: 'http://img.kiosko.net/#DATE#/cl/cl_ultimas_noticias.750.jpg',
         noSlashes: false
@@ -361,16 +297,11 @@ module.exports = robot => {
     }
 
     if (['lista', 'help'].includes(nombre)) {
-
       res.send(listaPortadas())
-
     } else if (nombre in diarios) {
-
       getPortada(res, diarios[nombre], 0, (err, result) => {
-
         if (err) return robot.emit('error', err, res)
         res.send(result)
-
       })
     }
   })
