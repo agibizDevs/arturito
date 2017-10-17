@@ -62,9 +62,9 @@ module.exports = function(robot) {
           }
           if (data) {
             data.servicios.item.forEach(function (flag) {
-              if(flag.horaprediccionbus1!=null){
+              if(!flag.respuestaServicio.includes("Fuera")){
                 msg.send(`Recorrido : ${flag.servicio}, Primer bus : ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
-              }else if(flag.respuestaServicio.includes("Fuera")){
+              }else{
                 msg.send(`Recorrido : ${flag.servicio} Fuera de horario de operación.`);
               }
             });

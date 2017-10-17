@@ -19,6 +19,7 @@
     "hubot-shipit": "^0.2.1",
     "hubot-slack": "^4.4.0",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "phantom": "^4.0.5",
     "rutjs": "^0.1.1"
   },
