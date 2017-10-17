@@ -1,5 +1,5 @@
 // Description:
-//   arturito chorizo
+//   arturito pagador
 
 // Dependencies:
 //   None
@@ -8,7 +8,7 @@
 //   None
 
 // Commands:
-//   arturito ql|rql|ctm|rctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo|te meo
+//   arturito cuando pagan?
 
 // Author:
 //   @cvicuna
