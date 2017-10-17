@@ -38,7 +38,10 @@ module.exports = (robot) => {
       getBody('http://store.steampowered.com').then(body => {
           const $ = cheerio.load(body);
           const idAttr = $('.dailydeal_desc .dailydeal_countdown').attr('id');
-          resolve(idAttr.substr(idAttr.length - 6))
+          var gameId = idAttr.substr(idAttr.length - 6);
+          gameId = gameId.replace(/_/gi, "");
+          console.log(gameId);
+          resolve(gameId);
         })
       })
   }
