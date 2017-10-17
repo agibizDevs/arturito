@@ -51,14 +51,14 @@ module.exports = function(robot) {
         console.log("url solicitud : " + url);
         robot.http(url).get()(function (err,res,body) {
           if(err || res.statusCode !==200){
-            console.log("Solicitud incorrecta, detalles: "+ cod);
-            msg.send('Algo pasó, intente nuevamente.');
+            console.log(":exclamation: Solicitud incorrecta, detalles: "+ cod);
+            msg.send(':exclamation: Algo pasó, intente nuevamente.');
             return robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg)
           }
           res.setEncoding('utf-8');
           var data = JSON.parse(body);
           if(data.respuestaParadero.includes("invalido")){
-            msg.send("Código de parada incorrecto, verifique y re-intente");
+            msg.send(":exclamation: Código de parada incorrecto, verifique y re-intente");
             return;
           }
           if (data) {
