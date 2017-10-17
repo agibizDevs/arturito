@@ -59,6 +59,7 @@ module.exports = function(robot) {
           var data = JSON.parse(body);
           if(data.respuestaParadero.includes("invalido")){
             msg.send("Código de parada incorrecto, verifique y re-intente");
+            return;
           }
           if (data) {
             data.servicios.item.forEach(function (flag) {
