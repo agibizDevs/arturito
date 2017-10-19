@@ -11,10 +11,11 @@
 // Author:
 //   @rorogallardo based in @jorgeepunan weather hubot pluggin
 
-
 var cheerio = require('cheerio');
-//var $       = require('jQuery');
 var S       = require('string');
+function toCelsius(f) {
+    return (5/9) * (f-32);
+}
 module.exports = function(robot) {
   robot.respond(/clima\s?(.*)/i, function(msg) {
 
@@ -25,24 +26,28 @@ module.exports = function(robot) {
       var zx = cheerio.load(body);
       cleanText = S( zx('pre').text() ).stripTags().s;
       var element =  cleanText.split('┌')[0];
-      console.log(element);
-      var offSymbols = element.replace(/[^a-zA-Z 0-9-°]+/g,"").replace(" ","_").trim();
+      var offSymbols = element.replace(/[^a-zA-Z 0-9-]+/g,"").replace(" ","_").trim();
       var offWithe = offSymbols.split("     ");
+      var result = [];
       for (var i = 0; i < offWithe.length; i++) {
-        console.log("elemento white "+offWithe[i].trim());
+        offWithe[i] = offWithe[i].trim();
+        if(offWithe[i]!="-" && offWithe[i]!=""){
+          result.push(offWithe[i]);
+        }
       }
-
-      var estado = offWithe[2].trim();
-      var temp = offWithe[3].trim();
-
-   if(estado.includes("Partly cloudy")){
-          msg.send( '```El clima en : '+location+' sera :sun_small_cloud: Parcialmente Nublado con temperaturas oscilantes en '+temp+', disfruta tu día! ```' );
+      var estado = result[1];
+      var temp = result[2].replace("C","").replace("F","").split("-");
+      for (var i = 0; i < temp.length; i++) {
+        temp[i] = toCelsius(temp[i]);
+      }
+      if(estado.includes("Partly cloudy")){
+          msg.send( ':thermometer: El clima en : '+location+' sera :sun_small_cloud: Parcialmente Nublado con temperaturas oscilantes en '+temp[0]+'°C - '+temp[1]+'°C, disfruta tu día! ' );
       }else if (estado.includes("Sunny") || element.includes("Clear") ) {
-          msg.send( '```El clima en:'+location+' sera :sunny: Soleado con temperaturas entre '+temp+', recuerda usar protección solar!  ```' );
+          msg.send( ':thermometer: El clima en : '+location+' sera :sunny: Soleado con temperaturas entre '+temp[0]+'°C - '+temp[1]+'°C, recuerda usar protección solar! ' );
       }else if(estado.includes("rain")) {
-          msg.send( '```El clima en:'+location+' sera de :rain: Lluvia, se pronostican: '+temp+', recuerda el paraguas!  ```' );
+          msg.send( ':thermometer: El clima en : '+location+' sera de :rain: Lluvia, se pronostican: '+temp[0]+'°C - '+temp[1]+'°C, recuerda el paraguas!  ' );
       }else if(estado.includes("cloudy")) {
-          msg.send( '```El clima en:'+location+' sera :cloud: Nublado con fluctuates en '+temp+', ten un buen dia!  ```' );
+          msg.send( ':thermometer: El clima en : '+location+' sera :cloud: Nublado con fluctuates en '+temp[0]+'°C - '+temp[1]+'°C, ten un buen dia!' );
       }
 
     });
