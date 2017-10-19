@@ -18,6 +18,8 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.1",
     "hubot-slack": "^4.4.0",
+    "jQuery": "^1.7.4",
+    "jsdom": "^11.3.0",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "phantom": "^4.0.5",
