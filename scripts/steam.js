@@ -140,6 +140,7 @@ module.exports = (robot) => {
 
     if (args != 'daily' && args != 'specials'){
       getGameDesc(args).then(getPrice).then(data => {
+        sendMessage(`Game: ${data.name}\n Valor original: $CLP ${data.initial}\n Descripción: ${data.description}\n <${data.uri}|Ver más>`, msg.message.room);
         console.log(data);//const promises = results.map(result => getPrice(result));
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
