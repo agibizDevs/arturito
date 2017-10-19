@@ -22,7 +22,7 @@ module.exports = function(robot) {
     var location = msg.match[1];
     var url = 'http://wttr.in/' + location;
     if(location =="help"){
-      msg.send(":musical_keyboard: Comando y parametros de busqueda: 'arturito clima <ciudad>[,<pais>Opcional]',\n Ejemplo : arturito clima Santiago, Chile \n arturito clima Punta Arenas");
+      msg.send(":musical_keyboard: Comando y parametros de busqueda: 'arturito clima <ciudad>[,<pais>Opcional]',\n Ejemplos : \narturito clima Santiago, Chile \narturito clima Punta Arenas");
       return;
     }
     msg.robot.http(url).get()(function(err, res, body) {
