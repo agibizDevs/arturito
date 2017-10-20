@@ -132,7 +132,7 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = bdate;
           robot.brain.save()
-          response.send(`:balloon: Se registró el cumpleaños de : ${getCleanName(targetUser.name)}, con fecha: ${targetUser.birthday} :balloon:.`)
+          response.send(`:balloon: Se registró el cumpleaños de : ${getCleanName(targetUser.name)}, con fecha: :calendari:${targetUser.birthday} :balloon:.`)
         }).catch(err => robot.emit('error', err, response))
     }
 
@@ -142,7 +142,7 @@ module.exports = function(robot) {
           if (!targetUser) return
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           if(targetUser.birthday != null && targetUser.birthday != ""){
-            response.send(`:balloon: El cumpleaños de : ${getCleanName(targetUser.name)}, es el : ${targetUser.birthday} :balloon:.`);
+            response.send(`:calendari::balloon: El cumpleaños de : ${getCleanName(targetUser.name)}, es el : :calendari:${targetUser.birthday} :balloon:.`);
           }else{
             response.send(`:warning: No se encontró el cumpleaños de ${getCleanName(targetUser.name)}, para agregarlo y más info : arturito cumpleaños help.`);
           }
@@ -157,15 +157,37 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = newBdate;
           robot.brain.save()
-          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : ${oldDate}, a la fecha: ${targetUser.birthday} :balloon:.`);
+          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendari:${oldDate}, a la fecha: :calendari:${targetUser.birthday} :balloon:.`);
         }).catch(err => robot.emit('error', err, response))
     }
 
+    const dispararCumpleaños = () =>{
+      const users = robot.brain.users();
+
+    //  users.forEach(function (usr) {
+      //    if(usr.birthday == )
+    //  })
+
+      userForToken(userToken, response)
+        .then(targetUser => {
+          var oldDate = targetUser.birthday;
+          if (!targetUser) return
+          if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
+          targetUser.birthday = newBdate;
+          robot.brain.save()
+          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendari:${oldDate}, a la fecha: :calendari:${targetUser.birthday} :balloon:.`);
+        }).catch(err => robot.emit('error', err, response))
+    }
 
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
          var bdate = msg.match[1].split(' ')[1];
-         addBDay(userToken, bdate, msg);
+         if(userToken == null || bdate == null) {
+           msg.send(`:warning: Se deben ingresar ambos parametros, más info : arturito cumpleaños help.`);
+           return;
+         }else{
+           addBDay(userToken, bdate, msg);
+         }
     });
 
     robot.respond(/buscar cumpleaños (.*)/i, function(msg) {
@@ -178,12 +200,14 @@ module.exports = function(robot) {
          var bdate = msg.match[1].split(' ')[1];
          modifyBDay(userToken, bdate, msg);
     });
-    robot.respond(/cumpleaños help (.*)/i, function(msg) {
-      response.send(`
-      *Verifica el username y los rangos de fecha que ingresaras.
-      // Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>
-      // Buscar cumpleaños:   arturito buscar cumpleaños <user>
-      // Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>`);
+    robot.respond(/cumpleaños (.*)/i, function(msg) {
+      if(msg.match[1] == "help"){
+          msg.send( "\n*:calendari:Verifica el username y los rangos de fecha que ingresaras:calendari:\n:musical_keyboard: Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>"+
+                            "\n:musical_keyboard: Buscar cumpleaños:   arturito buscar cumpleaños <user>\n:musical_keyboard: Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>");
+      }
     });
+////pendiente la funcion que revisa la fecha actuar y la compara con la coleccion de usuarios.
+
+
 
 };
