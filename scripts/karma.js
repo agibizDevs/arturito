@@ -82,7 +82,7 @@ module.exports = robot => {
       }
       if(user = getUserByDisplayName(token)){
         return resolve([user])
-      } 
+      }
       if (robot.adapter.constructor.name === 'SlackBot') {
         userFromWeb(token).then(webUser => {
           if (webUser) {
