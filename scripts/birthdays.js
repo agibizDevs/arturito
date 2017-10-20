@@ -2,94 +2,105 @@
 
 
 // Commands:
-//   arturito add bday <user>,<date[DD-MM]>
+// Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>
+// Buscar cumpleaños:   arturito buscar cumpleaños <user>
+// Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>
+
 
 // Author:
 //   @rorogallardo
 
 
 module.exports = function(robot) {
-
-
     const getCleanName = name => `${name[0]}.${name.substr(1)}`
-
     const userForMentionName = mentionName => {
-      const users = robot.brain.users()
-      return Object.keys(users).map(key => users[key]).find(user => mentionName === user.mention_name)
+      const users = robot.brain.users();
+      return Object.keys(users).map(key => users[key]).find(user => mentionName === user.mention_name);
     }
 
     const getUserByDisplayName = displayname => {
       const users = robot.brain.users();
-      return Object.keys(users).map(key => users[key]).find(user => displayname === user.slack.profile.display_name)
+      return Object.keys(users).map(key => users[key]).find(user => displayname === user.slack.profile.display_name);
     }
 
-  const userFromWeb = token => {
-    return robot.adapter.client.web.users.list().then(users => {
-      const localUsers = robot.brain.users()
-      const user1 = users.members.find(x => x.name === token)
-      if (!user1) return
-      const user2 = localUsers[user1.id]
-      if (typeof user2 === 'undefined' || user2 === null) {
-        localUsers[user1.id] = {
-          id: user1.id,
-          name: user1.name,
-          real_name: user1.real_name,
-          email_address: user1.profile.email,
-          slack: {
-            id: user1.id,
-            team_id: user1.team_id,
-            name: user1.name,
-            deleted: user1.deleted,
-            status: user1.status,
-            color: user1.color,
-            real_name: user1.real_name,
-            tz: user1.tz,
-            tz_label: user1.tz_label,
-            tz_offset: user1.tz_offset,
-            profile: user1.profile,
-            is_admin: user1.is_admin,
-            is_owner: user1.is_owner,
-            is_primary_owner: user1.is_primary_owner,
-            is_restricted: user1.is_restricted,
-            is_ultra_restricted: user1.is_ultra_restricted,
-            is_bot: user1.is_bot,
-            presence: 'active'
-          },
-          room: 'random',
-          karma: 0
+    const validarFecha = (date) => {
+      var dia = date.split('/')[0],
+          mes = date.split('/')[1];
+      if(!isNaN(dia) && !isNaN(mes) ){
+        if(!/^([0-31])*$/.test(dia) || !/^([0-12])*$/.test(mes) ){
+          return false;
         }
-        robot.brain.save()
+        return true;
       }
-      return localUsers[user1.id]
-    })
-  }
+    }
 
-  const usersForToken = token => {
-    return new Promise((resolve, reject) => {
-      let user
-      if (user = robot.brain.userForName(token)) {
-        return resolve([user])
-      }
-      if (user = userForMentionName(token)) {
-        return resolve([user])
-      }
-      if(user = getUserByDisplayName(token)){
-        return resolve([user])
-      }
-      if (robot.adapter.constructor.name === 'SlackBot') {
-        userFromWeb(token).then(webUser => {
-          if (webUser) {
-            return resolve([webUser])
-          } else {
-            return resolve(robot.brain.usersForFuzzyName(token))
+    const userFromWeb = token => {
+      return robot.adapter.client.web.users.list().then(users => {
+        const localUsers = robot.brain.users()
+        const user1 = users.members.find(x => x.name === token)
+        if (!user1) return
+        const user2 = localUsers[user1.id]
+        if (typeof user2 === 'undefined' || user2 === null) {
+          localUsers[user1.id] = {
+            id: user1.id,
+            name: user1.name,
+            real_name: user1.real_name,
+            email_address: user1.profile.email,
+            slack: {
+              id: user1.id,
+              team_id: user1.team_id,
+              name: user1.name,
+              deleted: user1.deleted,
+              status: user1.status,
+              color: user1.color,
+              real_name: user1.real_name,
+              tz: user1.tz,
+              tz_label: user1.tz_label,
+              tz_offset: user1.tz_offset,
+              profile: user1.profile,
+              is_admin: user1.is_admin,
+              is_owner: user1.is_owner,
+              is_primary_owner: user1.is_primary_owner,
+              is_restricted: user1.is_restricted,
+              is_ultra_restricted: user1.is_ultra_restricted,
+              is_bot: user1.is_bot,
+              presence: 'active'
+            },
+            room: 'random',
+            karma: 0
           }
-        }).catch(reject)
-      } else {
-        user = robot.brain.usersForFuzzyName(token)
-        resolve(user)
-      }
-    })
-  }
+          robot.brain.save()
+        }
+        return localUsers[user1.id]
+      })
+    }
+
+    const usersForToken = token => {
+      return new Promise((resolve, reject) => {
+        let user
+        if (user = robot.brain.userForName(token)) {
+          return resolve([user])
+        }
+        if (user = userForMentionName(token)) {
+          return resolve([user])
+        }
+        if(user = getUserByDisplayName(token)){
+          return resolve([user])
+        }
+        if (robot.adapter.constructor.name === 'SlackBot') {
+          userFromWeb(token).then(webUser => {
+            if (webUser) {
+              return resolve([webUser])
+            } else {
+              return resolve(robot.brain.usersForFuzzyName(token))
+            }
+          }).catch(reject)
+        } else {
+          user = robot.brain.usersForFuzzyName(token)
+          resolve(user)
+        }
+      })
+    }
 
   const userForToken = (token, response) => {
     return usersForToken(token)
@@ -111,6 +122,10 @@ module.exports = function(robot) {
 
     const addBDay = (userToken, bdate, response) =>{
       var adderUser = response.message.user;
+      if(!validarFecha(bdate)){
+        response.send(`:warning: El formato de fecha es DD/MM con rangos 0-31 / 0-12`)
+        return;
+      }
       userForToken(userToken, response)
         .then(targetUser => {
           if (!targetUser) return
@@ -142,7 +157,7 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = newBdate;
           robot.brain.save()
-          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : ${oldDate}, a la fecha: ${targetUser.birthday} :balloon:.`)
+          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : ${oldDate}, a la fecha: ${targetUser.birthday} :balloon:.`);
         }).catch(err => robot.emit('error', err, response))
     }
 
@@ -162,6 +177,13 @@ module.exports = function(robot) {
          var userToken = msg.match[1].split(' ')[0];
          var bdate = msg.match[1].split(' ')[1];
          modifyBDay(userToken, bdate, msg);
+    });
+    robot.respond(/cumpleaños help (.*)/i, function(msg) {
+      response.send(`
+      *Verifica el username y los rangos de fecha que ingresaras.
+      // Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>
+      // Buscar cumpleaños:   arturito buscar cumpleaños <user>
+      // Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>`);
     });
 
 };
