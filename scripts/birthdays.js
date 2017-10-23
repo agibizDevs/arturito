@@ -119,6 +119,16 @@ module.exports = function(robot) {
         return user
       })
   }
+  const validarAdministrador = (suscriptor) => {
+   var usrs = robot.brain.users();
+   console.log("type "+ typeof usrs);
+        console.log(JSON.stringify(usrs));
+
+   for (var i = 0; i < usrs.length; i++) {
+     console.log("usssss"+usrs[i]);
+   }
+    return false;
+  }
 
     const addBDay = (userToken, bdate, response) =>{
       var adderUser = response.message.user;
@@ -161,7 +171,7 @@ module.exports = function(robot) {
         }).catch(err => robot.emit('error', err, response))
     }
 
-    const dispararCumpleaños = () =>{
+    const trigger = () =>{
       const users = robot.brain.users();
 
     //  users.forEach(function (usr) {
@@ -182,12 +192,18 @@ module.exports = function(robot) {
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
          var bdate = msg.match[1].split(' ')[1];
-         if(userToken == null || bdate == null) {
-           msg.send(`:warning: Se deben ingresar ambos parametros, más info : arturito cumpleaños help.`);
-           return;
+         console.log("imprimir msg.usr "+JSON.stringify(msg.message.user));
+         if(msg.message.user.is_admin){
+           if(userToken == null || bdate == null) {
+             msg.send(`:warning: Se deben ingresar ambos parametros, más info : arturito cumpleaños help.`);
+             return;
+           }else{
+             addBDay(userToken, bdate, msg);
+           }
          }else{
-           addBDay(userToken, bdate, msg);
+           console.log("no es admin");
          }
+
     });
 
     robot.respond(/buscar cumpleaños (.*)/i, function(msg) {
