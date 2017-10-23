@@ -168,6 +168,7 @@ module.exports = function(robot) {
       var bUsers = [];
       bUsers.push( Object.keys(usrs).map(key => usrs[key]).find(user => currentdate === user.birthday));
       bUsers.forEach(function (usr) {
+        console.log("usrrrrrrr"JSON.stringify(usr));
         var element = {
                       "attachments": [
                           {
@@ -177,7 +178,7 @@ module.exports = function(robot) {
                               "author_icon": "http://data.whicdn.com/images/165860514/large.png",
                               "title": "Slack API Documentation",
                               "title_link": "https://api.slack.com/",
-                              "text": "Nos complace felicitar a "+usr.real_name+" en su día de cumpleaños!, que lo disfrutes!!",
+                              "text": "Nos complace felicitar a "+usr.first_name+" "+" en su día de cumpleaños!, que lo disfrutes!!",
                               "image_url": usr.image_original,
                               "thumb_url": usr.image_original
 
