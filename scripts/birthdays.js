@@ -12,6 +12,13 @@
 
 
 var moment = require('moment');
+let imageLinks = [
+"https://i.pinimg.com/474x/8e/a9/94/8ea99470e333e99fb28816ed46b68fb6--happy-birthday-yo.jpg",
+"http://2.bp.blogspot.com/-34BqT66KDOQ/VmQ5cFXS1HI/AAAAAAAAhQU/hPO1lR27-5A/s1600/imagen%2Bcumpleanos%2Bcristiano%2Bsaludo%2Btarjeta.jpg",
+"https://2.bp.blogspot.com/-LCXfEdy5CZw/V7zmQ6LzEvI/AAAAAAAA_2c/kj-fjBs4YdwqJIMH0ZSdRmscFxgnMIorgCLcB/s1600/imagen-de-saludo-de-feliz-cumpleanos.jpg",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT8Mr4XiB_ZRnV6WDfMmcOQFXoU6FHV0Iwufh2tkLb3-Purx03",
+"http://tarjetasmusicalesdecumpleanos.com/wp-content/uploads/2016/07/saludos-de-cumplea%C3%B1os-para-un-amigo-especial.jpg"
+];
 module.exports = function(robot) {
     const getCleanName = name => `${name[0]}.${name.substr(1)}`
     const userForMentionName = mentionName => {
@@ -170,7 +177,7 @@ module.exports = function(robot) {
       if(bUsers.length>0){
         bUsers.forEach(function (usr) {
           var mensaje = "CUMPLEAÑOS "+usr.real_name;
-          console.log("usrrrrrrr"+JSON.stringify(usr));
+          var image = msg.random(imageLinks);
           var element = {
                         "attachments": [
                             {
@@ -181,7 +188,7 @@ module.exports = function(robot) {
                                 "title": mensaje,
                                 "title_link": "https://api.slack.com/",
                                 "text": "Nos complace felicitarte en tu día de cumpleaños!, que lo disfrutes!!",
-                                "image_url": usr.image_original
+                                "image_url": image
                             }
                         ]
                     };
