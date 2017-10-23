@@ -165,33 +165,27 @@ module.exports = function(robot) {
     const triggerCongrats = (msg) =>{
       var currentdate = moment().format("DD/MM");
       const usrs = robot.brain.users();
-      console.log("usrs"+JSON.stringify(usrs));
-      for (var i = 0; i < usrs.length; i++) {
-        console.log("entro!");
-         if(usrs[i].birthday == currentdate){
-           console.log("usr name"+usrs[i].name);
-           console.log("entroif");
-          var element = {
-                        "attachments": [
-                            {
-                                "color": "#36a64f",
-                                "pretext": ":confetti_ball::balloon: Felicidades en tu cumpleaños:balloon::confetti_ball:",
-                                "author_name": "AGIBIZ TI",
-                                "author_icon": "http://data.whicdn.com/images/165860514/large.png",
-                                "title": "Slack API Documentation",
-                                "title_link": "https://api.slack.com/",
-                                "text": "Nos complace felicitar a "+usrs[i].real_name_normalized+" en su día de cumpleaños!, que lo disfrutes!!",
-                                "image_url": usrs[i].image_original,
-                                "thumb_url": usrs[i].image_original
+      var bUsers = [];
+      bUsers.push( Object.keys(usrs).map(key => usrs[key]).find(user => currentdate === user.birthday));
+      bUsers.forEach(function (usr) {
+        var element = {
+                      "attachments": [
+                          {
+                              "color": "#36a64f",
+                              "pretext": ":confetti_ball::balloon: Felicidades en tu cumpleaños:balloon::confetti_ball:",
+                              "author_name": "AGIBIZ TI",
+                              "author_icon": "http://data.whicdn.com/images/165860514/large.png",
+                              "title": "Slack API Documentation",
+                              "title_link": "https://api.slack.com/",
+                              "text": "Nos complace felicitar a "+usr.real_name_normalized+" en su día de cumpleaños!, que lo disfrutes!!",
+                              "image_url": usr.image_original,
+                              "thumb_url": usr.image_original
 
-                            }
-                        ]
-                    };
-          console.log("elementtttt"+element);
-          msg.send(JSON.stringify(element));
-          msg.send(element);
-         }
-      }
+                          }
+                      ]
+                  };
+        msg.send(JSON.stringify(element));
+      });
     }
 
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
