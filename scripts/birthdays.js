@@ -162,22 +162,33 @@ module.exports = function(robot) {
         }).catch(err => robot.emit('error', err, response))
     }
 
-    const triggerCongrats = () =>{
+    const triggerCongrats = (msg) =>{
       var currentdate = moment().format("DD/MM");
-      console.log("cdate"+currentdate);
       const usrs = robot.brain.users();
-      console.log("usr"+JSON.stringify(usrs));
       for (var i = 0; i < usrs.length; i++) {
          if(usrs[i].birthday == currentdate){
-           console.log("itsoncurrent");
            console.log("usr name"+usrs[i].name);
+
+       var element = {
+                        "attachments": [
+                            {
+                                "color": "#36a64f",
+                                "pretext": ":confetti_ball::balloon: Felicidades en tu cumpleaños:balloon::confetti_ball:",
+                                "author_name": "AGIBIZ TI",
+                                "author_icon": "http://data.whicdn.com/images/165860514/large.png",
+                                "title": "Slack API Documentation",
+                                "title_link": "https://api.slack.com/",
+                                "text": "Nos complace felicitar a "+usrs[i].real_name_normalized+" en su día de cumpleaños!, que lo disfrutes!!",
+                                "image_url": usrs[i].image_original,
+                                "thumb_url": usrs[i].image_original
+
+                            }
+                        ]
+                    };
          }
       }
-    //  users.forEach(function (usr) {
-      //    if(usr.birthday == )
-    //  })
-
-
+      msg.send(JSON.stringify(element));
+      msg.send(element);
     }
 
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
@@ -197,7 +208,7 @@ module.exports = function(robot) {
     });
     robot.respond(/dispara(.*)/i, function(msg) {
       console.log("disparando");
-        triggerCongrats();
+        triggerCongrats(msg);
     });
     robot.respond(/buscar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
