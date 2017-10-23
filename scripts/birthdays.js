@@ -165,11 +165,13 @@ module.exports = function(robot) {
     const triggerCongrats = (msg) =>{
       var currentdate = moment().format("DD/MM");
       const usrs = robot.brain.users();
+      console.log("usrs"+JSON.stringify(usrs));
       for (var i = 0; i < usrs.length; i++) {
+        console.log("entro!");
          if(usrs[i].birthday == currentdate){
            console.log("usr name"+usrs[i].name);
-
-       var element = {
+           console.log("entroif");
+          var element = {
                         "attachments": [
                             {
                                 "color": "#36a64f",
@@ -185,25 +187,26 @@ module.exports = function(robot) {
                             }
                         ]
                     };
+          console.log("elementtttt"+element);
+          msg.send(JSON.stringify(element));
+          msg.send(element);
          }
       }
-      msg.send(JSON.stringify(element));
-      msg.send(element);
     }
 
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
          var bdate = msg.match[1].split(' ')[1];
-         if(msg.message.user.is_admin){
+      //   if(msg.message.user.is_admin){
            if(userToken == null || bdate == null) {
              msg.send(`:warning: Se deben ingresar ambos parametros, más info : arturito cumpleaños help.`);
              return;
            }else{
              addBDay(userToken, bdate, msg);
            }
-         }else{
-           msg.send(`:warning: Sin privilegios para realizar la acción, contacte a los administradores.`);
-         }
+      //   }else{
+        //   msg.send(`:warning: Sin privilegios para realizar la acción, contacte a los administradores.`);
+         //}
 
     });
     robot.respond(/dispara(.*)/i, function(msg) {
