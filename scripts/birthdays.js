@@ -168,7 +168,7 @@ module.exports = function(robot) {
       var bUsers = [];
       bUsers.push( Object.keys(usrs).map(key => usrs[key]).find(user => currentdate === user.birthday));
       bUsers.forEach(function (usr) {
-        console.log("usrrrrrrr"JSON.stringify(usr));
+        console.log("usrrrrrrr"+JSON.stringify(usr));
         var element = {
                       "attachments": [
                           {
