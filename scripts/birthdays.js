@@ -169,6 +169,7 @@ module.exports = function(robot) {
       bUsers.push( Object.keys(usrs).map(key => usrs[key]).find(user => currentdate === user.birthday));
       if(bUsers.length>0){
         bUsers.forEach(function (usr) {
+          var mensaje = "CUMPLEAÑOS "+usr.real_name;
           console.log("usrrrrrrr"+JSON.stringify(usr));
           var element = {
                         "attachments": [
@@ -177,18 +178,13 @@ module.exports = function(robot) {
                                 "pretext": ":confetti_ball::balloon: Felicidades en tu cumpleaños:balloon::confetti_ball:",
                                 "author_name": "AGIBIZ TI",
                                 "author_icon": "http://data.whicdn.com/images/165860514/large.png",
-                                "title": "Slack API Documentation",
+                                "title": mensaje,
                                 "title_link": "https://api.slack.com/",
-                                "text": "Nos complace felicitar a "+usr.first_name+" "+usr.last_name+" en su día de cumpleaños!, que lo disfrutes!!",
-                                "image_url": usr.image_original,
-                                "thumb_url": usr.image_original
-
+                                "text": "Nos complace felicitarte en tu día de cumpleaños!, que lo disfrutes!!",
+                                "image_url": usr.image_original
                             }
                         ]
                     };
-          msg.send(JSON.stringify(element));
-          msg.send("++++++++++++++++++++");
-
           msg.send(element);
         });
       }else{
