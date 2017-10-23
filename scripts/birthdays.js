@@ -11,6 +11,7 @@
 //   @rorogallardo
 
 
+var moment = require('moment');
 module.exports = function(robot) {
     const getCleanName = name => `${name[0]}.${name.substr(1)}`
     const userForMentionName = mentionName => {
@@ -119,16 +120,6 @@ module.exports = function(robot) {
         return user
       })
   }
-  const validarAdministrador = (suscriptor) => {
-   var usrs = robot.brain.users();
-   console.log("type "+ typeof usrs);
-        console.log(JSON.stringify(usrs));
-
-   for (var i = 0; i < usrs.length; i++) {
-     console.log("usssss"+usrs[i]);
-   }
-    return false;
-  }
 
     const addBDay = (userToken, bdate, response) =>{
       var adderUser = response.message.user;
@@ -142,7 +133,7 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = bdate;
           robot.brain.save()
-          response.send(`:balloon: Se registró el cumpleaños de : ${getCleanName(targetUser.name)}, con fecha: :calendari:${targetUser.birthday} :balloon:.`)
+          response.send(`:balloon: Se registró el cumpleaños de : ${getCleanName(targetUser.name)}, con fecha: :calendar:${targetUser.birthday} :balloon:.`)
         }).catch(err => robot.emit('error', err, response))
     }
 
@@ -152,7 +143,7 @@ module.exports = function(robot) {
           if (!targetUser) return
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           if(targetUser.birthday != null && targetUser.birthday != ""){
-            response.send(`:calendari::balloon: El cumpleaños de : ${getCleanName(targetUser.name)}, es el : :calendari:${targetUser.birthday} :balloon:.`);
+            response.send(`:calendar::balloon: El cumpleaños de : ${getCleanName(targetUser.name)}, es el : :calendar:${targetUser.birthday} :balloon:.`);
           }else{
             response.send(`:warning: No se encontró el cumpleaños de ${getCleanName(targetUser.name)}, para agregarlo y más info : arturito cumpleaños help.`);
           }
@@ -167,32 +158,31 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = newBdate;
           robot.brain.save()
-          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendari:${oldDate}, a la fecha: :calendari:${targetUser.birthday} :balloon:.`);
+          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendar:${oldDate}, a la fecha: :calendar:${targetUser.birthday} :balloon:.`);
         }).catch(err => robot.emit('error', err, response))
     }
 
-    const trigger = () =>{
-      const users = robot.brain.users();
-
+    const triggerCongrats = () =>{
+      var currentdate = moment().format("DD/MM");
+      console.log("cdate"+currentdate);
+      const usrs = robot.brain.users();
+      console.log("usr"+JSON.stringify(usrs));
+      for (var i = 0; i < usrs.length; i++) {
+         if(usrs[i].birthday == currentdate){
+           console.log("itsoncurrent");
+           console.log("usr name"+usrs[i].name);
+         }
+      }
     //  users.forEach(function (usr) {
       //    if(usr.birthday == )
     //  })
 
-      userForToken(userToken, response)
-        .then(targetUser => {
-          var oldDate = targetUser.birthday;
-          if (!targetUser) return
-          if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
-          targetUser.birthday = newBdate;
-          robot.brain.save()
-          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendari:${oldDate}, a la fecha: :calendari:${targetUser.birthday} :balloon:.`);
-        }).catch(err => robot.emit('error', err, response))
+
     }
 
     robot.respond(/agregar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
          var bdate = msg.match[1].split(' ')[1];
-         console.log("imprimir msg.usr "+JSON.stringify(msg.message.user));
          if(msg.message.user.is_admin){
            if(userToken == null || bdate == null) {
              msg.send(`:warning: Se deben ingresar ambos parametros, más info : arturito cumpleaños help.`);
@@ -201,11 +191,14 @@ module.exports = function(robot) {
              addBDay(userToken, bdate, msg);
            }
          }else{
-           console.log("no es admin");
+           msg.send(`:warning: Sin privilegios para realizar la acción, contacte a los administradores.`);
          }
 
     });
-
+    robot.respond(/dispara(.*)/i, function(msg) {
+      console.log("disparando");
+        triggerCongrats();
+    });
     robot.respond(/buscar cumpleaños (.*)/i, function(msg) {
          var userToken = msg.match[1].split(' ')[0];
          findBDay(userToken, msg);
@@ -218,7 +211,7 @@ module.exports = function(robot) {
     });
     robot.respond(/cumpleaños (.*)/i, function(msg) {
       if(msg.match[1] == "help"){
-          msg.send( "\n*:calendari:Verifica el username y los rangos de fecha que ingresaras:calendari:\n:musical_keyboard: Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>"+
+          msg.send( "\n*:calendar:Verifica el username y los rangos de fecha que ingresaras:calendar:\n:musical_keyboard: Agregar fecha    :   arturito agregar cumpleaños <user>,<date[DD/MM]>"+
                             "\n:musical_keyboard: Buscar cumpleaños:   arturito buscar cumpleaños <user>\n:musical_keyboard: Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>");
       }
     });
