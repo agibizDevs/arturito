@@ -10,6 +10,6 @@ Para consultar cuáles son las instrucciones que tiene, puedes escribirle públi
 
 ## Contribuir
 
-El repositorio queda abierto para todos los miembros de [Agibiz Developers en GitHub](https://github.com/agibizdevs), si quieres agregar alguna función sigue los pasos en [contributing](CONTRIBUTING.md).
+El repositorio queda abierto para todos los miembros de [Agibiz Developers en GitHub](https://github.com/agibizdevs), si quieres agregar alguna función sigue los pasos en [contributing](CONTRIBUTING.MD).
 
 ![arturito](https://wallpaperscraft.com/image/r2d2_drone_star_wars_toy_113637_3840x2160.jpg)
