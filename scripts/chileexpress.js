@@ -9,7 +9,7 @@
 //   hubot chilexpress <CODIGO SEGUIMIENTO>
 //
 // Author:
-//   @juanbrujo
+//   @rorogallardo based in @devschile hubot
 
 var cheerio = require('cheerio');
 

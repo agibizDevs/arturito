@@ -10,9 +10,10 @@
 //   Adaptado por @clsource Camilo Castro
 //   Basado en
 //   https://www.npmjs.com/package/hubot-karma
+//   Bug Fixes @cvicuna
 //
 // Author
-//   @clsource
+//   @cvicuna
 
 module.exports = robot => {
   const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080'

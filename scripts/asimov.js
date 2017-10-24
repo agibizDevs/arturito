@@ -6,7 +6,7 @@
 //   huemul ley bot/robot - Show the Robot Law by Isaac Asiimov
 
 // Author:
-//   @chrisdelcaos
+//   @cvicuna
 
 const BotLaw = [
                     `1_ Un robot no debe dañar a un ser humano o, por su inacción, dejar que un ser humano sufra daño`,

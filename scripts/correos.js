@@ -5,7 +5,7 @@
 //   arturito correos [envio]
 
 // Author:
-//   @cvicuna
+//   @cvicuna based in @devschile hubot
 
 module.exports = function(robot) {
     

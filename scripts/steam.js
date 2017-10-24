@@ -9,7 +9,7 @@
 //   hubot steam specials [n] - Show top n steam specials.
 
 // Author:
-//   @chrisdelcaos
+//   @cvicuna
 
 'use strict';
 const cheerio = require('cheerio');

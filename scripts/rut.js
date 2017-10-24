@@ -5,7 +5,7 @@
 //   hubot dame un rut
 
 // Author:
-//   @cvicuna
+//   @cvicuna based on devschile hubot
 
 var Rut     = require("rutjs");
 

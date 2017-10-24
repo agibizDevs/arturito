@@ -6,7 +6,7 @@
 
 
 // Author:
-//   @cvicuna
+//   @cvicuna based on devschile hubot
 
 let desayuno    = ["cereal","sandwich","frutas","desayuno dominó","quesillo + marmelada","huevos","lo mismo que ayer"];
 let almuerzo    = ["pescado","árabe/thai/india","pastas","sushi","china","sandwich","empanada","ensalada","pizza","chatarra","ceviche","carne/parrilla","lo mismo que ayer"];

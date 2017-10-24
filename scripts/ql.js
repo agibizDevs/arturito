@@ -11,7 +11,7 @@
 //   arturito ql|rql|ctm|rctm|m[áa]tate|culiao|reculiao|remilculiao|te paseo|te meo
 
 // Author:
-//   @cvicuna
+//   @cvicuna 
 
 const wea = [
     `Cha, pero pa que po!`,

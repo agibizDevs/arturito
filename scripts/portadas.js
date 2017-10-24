@@ -10,7 +10,7 @@
 
 
 // Author:
-//   @cvicuna
+//   @cvicuna based on devschile hubot
 
 const moment = require('moment')
 const {whilst} = require('async')

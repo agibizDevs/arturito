@@ -11,7 +11,7 @@
 //   hubot dame una discover
 
 // Author:
-//   @cvicuna
+//   @cvicuna based on devschile hubot
 
 const {load} = require('cheerio');
 const fixExpireDate = (date) => {
