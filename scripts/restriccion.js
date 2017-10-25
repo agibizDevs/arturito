@@ -19,7 +19,7 @@ module.exports = function(robot) {
           var data = JSON.parse(body);
           var restriccion = data.restriccion;
           msg.send('Las condiciones hoy son:');
-          msg.send(`Para :car:vehiculos sin sello verde: ' + restriccion.hoy.digitos_sin_sello + '\n -:car:vehiculos con sello verde: ' + restriccion.hoy.digitos_con_sello.`);
+          msg.send(':car:Vehiculos Sin sello verde: ' + restriccion.hoy.digitos_sin_sello + ':vertical_traffic_light:\n:car:Vehiculos Con sello verde: ' + restriccion.hoy.digitos_con_sello+':vertical_traffic_light:');
         });
   });
 };
