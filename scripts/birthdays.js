@@ -19,6 +19,7 @@ let imageLinks = [
 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT8Mr4XiB_ZRnV6WDfMmcOQFXoU6FHV0Iwufh2tkLb3-Purx03",
 "http://tarjetasmusicalesdecumpleanos.com/wp-content/uploads/2016/07/saludos-de-cumplea%C3%B1os-para-un-amigo-especial.jpg"
 ];
+var je = "je";
 module.exports = function(robot) {
     const getCleanName = name => `${name[0]}.${name.substr(1)}`
     const userForMentionName = mentionName => {
@@ -165,26 +166,25 @@ module.exports = function(robot) {
           if (targetUser.length === '') return response.send('¡Oe no seai pillo, escribe un nombre!')
           targetUser.birthday = newBdate;
           robot.brain.save()
-          response.send(`:balloon: Se cambio el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendar:${oldDate}, a la fecha: :calendar:${targetUser.birthday} :balloon:.`);
+          response.send(`:balloon: Se cambió el cumpleaños de : ${getCleanName(targetUser.name)}, de la fecha : :calendar:${oldDate}, a la fecha: :calendar:${targetUser.birthday} :balloon:.`);
         }).catch(err => robot.emit('error', err, response))
     }
 
-    const triggerCongrats = (msg) =>{
+    const triggerCongrats = () =>{
+      console.log("shit");
       var currentdate = moment().format("DD/MM");
       const usrs = robot.brain.users();
       var bUsers = [];
       bUsers.push( Object.keys(usrs).map(key => usrs[key]).find(user => currentdate === user.birthday));
       if(bUsers.length>0){
         bUsers.forEach(function (usr) {
-          var mensaje = "CUMPLEAÑOS "+usr.real_name;
-          var image = msg.random(imageLinks);
+          var mensaje = "A Ti! "+usr.real_name;
+          var image =  "hola";///msg.random(imageLinks);
           var element = {
                         "attachments": [
                             {
                                 "color": "#36a64f",
                                 "pretext": ":confetti_ball::balloon: Felicidades en tu cumpleaños:balloon::confetti_ball:",
-                                "author_name": "AGIBIZ TI",
-                                "author_icon": "http://data.whicdn.com/images/165860514/large.png",
                                 "title": mensaje,
                                 "title_link": "https://api.slack.com/",
                                 "text": "Nos complace felicitarte en tu día de cumpleaños!, que lo disfrutes!!",
@@ -192,7 +192,7 @@ module.exports = function(robot) {
                             }
                         ]
                     };
-          msg.send(element);
+          //msg.send(element);
         });
       }else{
         console.log("no hay cumpleaños el dia de hoy");
@@ -215,7 +215,6 @@ module.exports = function(robot) {
 
     });
     robot.respond(/dispara(.*)/i, function(msg) {
-      console.log("disparando");
         triggerCongrats(msg);
     });
     robot.respond(/buscar cumpleaños (.*)/i, function(msg) {
@@ -234,7 +233,7 @@ module.exports = function(robot) {
                             "\n:musical_keyboard: Buscar cumpleaños:   arturito buscar cumpleaños <user>\n:musical_keyboard: Modificar fecha  :   arturito modigicar cumpleaños <user>,<date[DD/MM]>");
       }
     });
-////pendiente la funcion que revisa la fecha actuar y la compara con la coleccion de usuarios.
+////pendiente automatizar a la hora de despertar la ejecucion de triggerCongrats()
 
 
 
