@@ -18,8 +18,9 @@ module.exports = function(robot) {
           }
           var data = JSON.parse(body);
           var restriccion = data.restriccion;
+        //  var conSello = (restriccion.hoy.digitos_con_sello == "" ) ? "No Aplica" : restriccion.hoy.digitos_con_sello;
           msg.send('Las condiciones hoy son:');
-          msg.send(':car:Vehiculos Sin sello verde: ' + restriccion.hoy.digitos_sin_sello + ':vertical_traffic_light:\n:car:Vehiculos Con sello verde: ' + restriccion.hoy.digitos_con_sello+':vertical_traffic_light:');
+          msg.send(':car:Vehiculos Sin sello verde: ' + restriccion.hoy.digitos_sin_sello + ':vertical_traffic_light:\n:car:Vehiculos Con sello verde: ' + conSello+':vertical_traffic_light:');
         });
   });
 };
