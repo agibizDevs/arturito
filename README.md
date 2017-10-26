@@ -2,7 +2,7 @@
 
 @arturito es un chat bot basado en [Hubot](https://hubot.github.com/) para nuestro canal de slack [Agibiz Developers](http://devsagibiz.slack.com). En si mismo, fue inicialmente generado por [generator-hubot](https://github.com/hubotio/generator-hubot) y configurado para ser deployado en [Heroku](https://www.heroku.com/) para que corra nuestros cambios lo mas rapido posible.
 
-Posee todas las funciones básicas de [hubot](https://hubot.github.com/) y varios aportes de [nuestros developers](https://github.com/agibizDevs/arturito/graphs/contributors).
+Posee todas las funciones básicas de hubot y otros aportes de [nuestros developers](https://github.com/agibizDevs/arturito/graphs/contributors).
 
 ## ¿Cual es la lista de comandos?
 
