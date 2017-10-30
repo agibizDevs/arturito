@@ -82,7 +82,7 @@ module.exports = (robot) => {
         const final = price.final / 100;
         const initial = price.initial / 100;
         const discount = price.discount_percent;
-        return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`, description: desc};
+        return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`, desc: desc};
       })
       resolve(data);
     })
@@ -112,7 +112,7 @@ module.exports = (robot) => {
           })
           .then(results => {
             const messages = results.map(data => {
-              return `Cacha el especial! : ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|Ver más>`;
+              return `Cacha el especial! : *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`;
             });
             sendMessage(messages.join('\n'), msg.message.room);
           }).catch(err => {
@@ -131,7 +131,7 @@ module.exports = (robot) => {
 
     if (args == 'daily') {
       getDailyId().then(getPrice).then(data => {
-        sendMessage(`¡Lorea la oferta del día!: ${data.name}, a sólo $CLP ${data.final}. Valor original $CLP ${data.initial}, eso es un -${data.discount}%! <${data.uri}|Ver más>`, msg.message.room);
+        sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
@@ -140,8 +140,8 @@ module.exports = (robot) => {
 
     if (args != 'daily' && args != 'specials'){
       getGameDesc(args).then(getPrice).then(data => {
-        sendMessage(`Game: ${data.name}\n Valor original: $CLP ${data.initial}\n Descripción: ${data.description}\n <${data.uri}|Ver más>`, msg.message.room);
-        console.log(data);//const promises = results.map(result => getPrice(result));
+        sendMessage(`Game: ${data.name}\nValor original: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+        console.log(data);
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
