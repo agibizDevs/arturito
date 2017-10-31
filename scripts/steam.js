@@ -8,6 +8,7 @@
 //   hubot steam daily - Show the current steam daily deal.
 //   hubot steam specials [n] - Show top n steam specials.
 //   hubot steam [Game Name] - Show game info.
+//   hubot steam top [n] - Show games top sellers.
 //   hubot steam help - Show available command list.
 
 // Author:
@@ -202,7 +203,7 @@ module.exports = (robot) => {
       }
     }
     else{
-      sendMessage("Comandos de Steam:\n`arturito steam daily` - Muestra la oferta del día.\n`arturito steam specials [n]` - Muestra el top n de ofertas mas vendidas (Maximo 5).\n`arturito steam [Nombre Juego]` - Muestra información básica de un juego.", msg.message.room);      
+      sendMessage("Comandos de Steam:\n`arturito steam daily` - Muestra la oferta del día.\n`arturito steam specials [n]` - Muestra el top n de ofertas especiales (Maximo 5).\n`arturito steam top [n]` - Muestra el top n de juegos mas vendidos.\n`arturito steam [Nombre Juego]` - Muestra información básica de un juego.", msg.message.room);      
     }
   });
 }
