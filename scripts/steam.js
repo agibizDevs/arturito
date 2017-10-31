@@ -56,6 +56,9 @@ module.exports = (robot) => {
           gameId = gameId.replace(/_/gi, "");
           resolve(gameId);
         }
+        else{
+          reject(404);
+        }
       })
     })
   }
@@ -70,7 +73,6 @@ module.exports = (robot) => {
         resolve(games);
       });
     });
-
   }
 
   const getPrice = id => {
@@ -136,16 +138,16 @@ module.exports = (robot) => {
   
       if (args == 'daily') {
         getDailyId().then(getPrice).then(data => {
-            if (data == 404)
-            {
-              sendMessage(`No hay oferta del día, revisaste los especiales?`);          
-            }
-            else {
-              sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
-            }
+          sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
         }).catch(err => {
-          msg.send('Actualmente _Steam_ no responde.');
-          robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+          console.log(err);
+          if(err == 404){
+            msg.send('No se encontró la oferta del día, revisaste los especiales?');
+          }
+          else{
+            msg.send('Actualmente _Steam_ no responde.');
+            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);s
+          }
         });
       }
   
