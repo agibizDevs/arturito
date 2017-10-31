@@ -7,6 +7,7 @@
 // Commands:
 //   hubot steam daily - Show the current steam daily deal.
 //   hubot steam specials [n] - Show top n steam specials.
+//   hubot steam [Game Name] - Show a game info.
 
 // Author:
 //   @cvicuna
@@ -85,6 +86,8 @@ module.exports = (robot) => {
         return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`, desc: desc};
       })
       resolve(data);
+    }).catch(err => {
+      return 404;
     })
   }
 
@@ -131,7 +134,13 @@ module.exports = (robot) => {
 
     if (args == 'daily') {
       getDailyId().then(getPrice).then(data => {
-          sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);          
+          if (data == 404)
+          {
+            sendMessage(`No hay oferta del día, revisaste los especiales?`);          
+          }
+          else {
+            sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
+          }
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
@@ -140,11 +149,17 @@ module.exports = (robot) => {
 
     if (args != 'daily' && args != 'specials'){
       getGameDesc(args).then(getPrice).then(data => {
-        if (data.initial > data.final){
-          sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+        console.log(data);
+        if (data == 404){
+          sendMessage(`Juego no encontrado, intenta con otro nombre...`, msg.message.room);
         }
         else{
-          sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+          if (data.initial > data.final){
+            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+          }
+          else{
+            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+          }
         }
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
@@ -152,5 +167,8 @@ module.exports = (robot) => {
       });
     }
 
+    if (args == 'help'){
+      sendMessage(`Comandos de Steam:\n'hubot steam daily' - Show the current steam daily deal.\n'hubot steam specials [n]' - Show top n steam specials.\n'hubot steam [Game Name]' - Show game info.`, msg.message.room);
+    }
   });
 }
