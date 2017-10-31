@@ -105,70 +105,71 @@ module.exports = (robot) => {
     const args = msg.match[1].split(' ')[1];
     const cant = msg.match[1].split(' ')[2];
 
-    if (args == 'specials') {
-      if(!isNaN(cant)){
-        if(cant <= 5){
-          getSpecials(cant)
-          .then(results => {
-            const promises = results.map(result => getPrice(result));
-            return Promise.all(promises);
-          })
-          .then(results => {
-            const messages = results.map(data => {
-              return `Cacha el especial! : *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`;
+    if (args != 'help'){
+      if (args == 'specials') {
+        if(!isNaN(cant)){
+          if(cant <= 5){
+            getSpecials(cant)
+            .then(results => {
+              const promises = results.map(result => getPrice(result));
+              return Promise.all(promises);
+            })
+            .then(results => {
+              const messages = results.map(data => {
+                return `Cacha el especial! : *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`;
+              });
+              sendMessage(messages.join('\n'), msg.message.room);
+            }).catch(err => {
+              msg.send('Actualmente _Steam_ no responde.');
+              robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
             });
-            sendMessage(messages.join('\n'), msg.message.room);
-          }).catch(err => {
-            msg.send('Actualmente _Steam_ no responde.');
-            robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
-          });
-        }
-        else{
-          msg.send('¡Hey!, la cantidad de ofertas debe ser menor o igual a 5!');
-        }
-      }
-      else{
-        msg.send('Oe no po! el valor para la cantidad de ofertas no es un numero!');
-      }
-    }
-
-    if (args == 'daily') {
-      getDailyId().then(getPrice).then(data => {
-          if (data == 404)
-          {
-            sendMessage(`No hay oferta del día, revisaste los especiales?`);          
-          }
-          else {
-            sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
-          }
-      }).catch(err => {
-        msg.send('Actualmente _Steam_ no responde.');
-        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
-      });
-    }
-
-    if (args != 'daily' && args != 'specials'){
-      getGameDesc(args).then(getPrice).then(data => {
-        console.log(data);
-        if (data == 404){
-          sendMessage(`Juego no encontrado, intenta con otro nombre...`, msg.message.room);
-        }
-        else{
-          if (data.initial > data.final){
-            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
           }
           else{
-            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+            msg.send('¡Hey!, la cantidad de ofertas debe ser menor o igual a 5!');
           }
         }
-      }).catch(err => {
-        msg.send('Actualmente _Steam_ no responde.');
-        robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
-      });
+        else{
+          msg.send('Oe no po! el valor para la cantidad de ofertas no es un numero!');
+        }
+      }
+  
+      if (args == 'daily') {
+        getDailyId().then(getPrice).then(data => {
+            if (data == 404)
+            {
+              sendMessage(`No hay oferta del día, revisaste los especiales?`);          
+            }
+            else {
+              sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
+            }
+        }).catch(err => {
+          msg.send('Actualmente _Steam_ no responde.');
+          robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+        });
+      }
+  
+      if (args != 'daily' && args != 'specials'){
+        getGameDesc(args).then(getPrice).then(data => {
+          console.log(data);
+          if (data == 404){
+            sendMessage(`Juego no encontrado, intenta con otro nombre...`, msg.message.room);
+          }
+          else{
+            if (data.initial > data.final){
+              sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+            }
+            else{
+              sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+            }
+          }
+        }).catch(err => {
+          msg.send('Actualmente _Steam_ no responde.');
+          robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+        });
+      }
     }
-
-    if (args == 'help'){
-      sendMessage(`Comandos de Steam:\n'hubot steam daily' - Show the current steam daily deal.\n'hubot steam specials [n]' - Show top n steam specials.\n'hubot steam [Game Name]' - Show game info.`, msg.message.room);
+    else{
+      sendMessage(`Comandos de Steam:\n'hubot steam daily' - Show the current steam daily deal.\n'hubot steam specials [n]' - Show top n steam specials.\n'hubot steam [Game Name]' - Show game info.`, msg.message.room);      
     }
   });
 }
