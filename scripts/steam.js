@@ -51,14 +51,12 @@ module.exports = (robot) => {
       getBody('http://store.steampowered.com').then(body => {
         const $ = cheerio.load(body);
         var idAttr = $('.dailydeal_desc .dailydeal_countdown').attr('id');
-        if (idAttr != undefined){
+        if (idAttr != undefined){ //halloween, verano, invierno. no daily deal
           var gameId = idAttr.substr(idAttr.length - 6);
           gameId = gameId.replace(/_/gi, "");
           resolve(gameId);
         }
-        else{
-          reject(404);
-        }
+        else { reject(404); }
       })
     })
   }
@@ -128,11 +126,11 @@ module.exports = (robot) => {
             });
           }
           else{
-            msg.send('¡Hey!, la cantidad de ofertas debe ser menor o igual a 5!');
+            msg.send('¡TAMALO!, la cantidad de ofertas debe ser menor o igual a 5!');
           }
         }
         else{
-          msg.send('Oe no po! el valor para la cantidad de ofertas no es un numero!');
+          msg.send('¡Oe no po! el valor para la cantidad de ofertas no es un numero!');
         }
       }
   
@@ -140,11 +138,9 @@ module.exports = (robot) => {
         getDailyId().then(getPrice).then(data => {
           sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);                      
         }).catch(err => {
-          console.log(err);
-          if(err == 404){
+          if (err == 404) {
             msg.send('No se encontró la oferta del día, revisaste los especiales?');
-          }
-          else{
+          } else {
             msg.send('Actualmente _Steam_ no responde.');
             robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);s
           }
