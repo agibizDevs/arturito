@@ -169,7 +169,7 @@ module.exports = (robot) => {
       }
     }
     else{
-      sendMessage(`Comandos de Steam:\n'hubot steam daily' - Show the current steam daily deal.\n'hubot steam specials [n]' - Show top n steam specials.\n'hubot steam [Game Name]' - Show game info.`, msg.message.room);      
+      sendMessage("Comandos de Steam:\n`hubot steam daily` - Show the current steam daily deal.\n`hubot steam specials [n]` - Show top n steam specials.\n`hubot steam [Game Name]` - Show game info.", msg.message.room);      
     }
   });
 }
