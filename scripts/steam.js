@@ -74,6 +74,18 @@ module.exports = (robot) => {
     });
   }
 
+  const getTops = count => {
+    return new Promise((resolve, reject) => {
+      getBody('http://store.steampowered.com/search/?filter=topsellers').then(body => {
+        const $ = cheerio.load(body);
+        let games = $('.search_result_row').slice(0, count).map(function() {
+          return $(this).attr('data-ds-appid');
+        }).get();
+        resolve(games);
+      });
+    });
+  }
+
   const getPrice = id => {
     const cookie = 'steamCountry=CL%7Cb8a8a3da46a6c324d177af2855ca3d9b;timezoneOffset=-10800,0;';
     const uri = `http://store.steampowered.com/api/appdetails/?appids=${id}&cc=CL`;
@@ -131,7 +143,7 @@ module.exports = (robot) => {
           }
         }
         else{
-          msg.send('¡Oe no po! el valor para la cantidad de ofertas no es un numero!');
+          msg.send('¡Oe no po! el valor para la cantidad no es un numero!');
         }
       }
   
@@ -147,8 +159,35 @@ module.exports = (robot) => {
           }
         });
       }
+
+      if (args == 'top') {
+        if(!isNaN(cant)){
+          if(cant <= 5){
+            getTops(cant)
+            .then(results => {
+              const promises = results.map(result => getPrice(result));
+              return Promise.all(promises);
+            })
+            .then(results => {
+              const messages = results.map(data => {
+                return `Nombre del Juego: *${data.name}*, a sólo $CLP *${data.final}*. eso es un -*${data.discount}*% Off! <${data.uri}|Ver más>`;
+              });
+              sendMessage(messages.join('\n'), msg.message.room);
+            }).catch(err => {
+              msg.send('Actualmente _Steam_ no responde.');
+              robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
+            });
+          }
+          else{
+            msg.send('¡TAMALO!, la cantidad de juegos debe ser menor o igual a 5!');
+          }
+        }
+        else{
+          msg.send('¡TAMALO!, el valor para la cantidad no es un numero!');
+        }
+      }
   
-      if (args != 'daily' && args != 'specials'){
+      if (args != 'daily' && args != 'specials' && args != 'top'){
         getGameDesc(full).then(getPrice).then(data => {
           if (data.initial > data.final){
             msg.send(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}* Off)\nDescripción: ${data.desc} <${data.uri}|Ver más>`);
