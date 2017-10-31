@@ -151,10 +151,10 @@ module.exports = (robot) => {
       if (args != 'daily' && args != 'specials'){
         getGameDesc(full).then(getPrice).then(data => {
           if (data.initial > data.final){
-            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}* Off)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+            msg.send(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}* Off)\nDescripción: ${data.desc} <${data.uri}|Ver más>`);
           }
           else{
-            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+            msg.send(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`);      
           }
         }).catch(err => {
           msg.send('Actualmente _Steam_ no responde.');
