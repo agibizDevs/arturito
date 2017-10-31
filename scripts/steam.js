@@ -8,6 +8,7 @@
 //   hubot steam daily - Show the current steam daily deal.
 //   hubot steam specials [n] - Show top n steam specials.
 //   hubot steam [Game Name] - Show game info.
+//   hubot steam help - Show available command list.
 
 // Author:
 //   @cvicuna
