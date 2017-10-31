@@ -49,8 +49,8 @@ module.exports = (robot) => {
     return new Promise ((resolve, reject) => {
       getBody('http://store.steampowered.com').then(body => {
           const $ = cheerio.load(body);
-          const idAttr = $('.dailydeal_desc .dailydeal_countdown').attr('id');
-          var gameId = idAttr.substr(idAttr.length - 6);
+          var idAttr = $('.dailydeal_desc .dailydeal_countdown').attr('id');
+          var gameId = idAttr != undefined ? idAttr.substr(idAttr.length - 6) : idAttr = "404";
           gameId = gameId.replace(/_/gi, "");
           resolve(gameId);
         })
@@ -131,7 +131,7 @@ module.exports = (robot) => {
 
     if (args == 'daily') {
       getDailyId().then(getPrice).then(data => {
-        sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);
+          sendMessage(`¡Lorea la oferta del día!: *${data.name}*, a sólo $CLP *${data.final}*. Valor original $CLP *${data.initial}*, eso es un -*${data.discount}*%! <${data.uri}|Ver más>`, msg.message.room);          
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
@@ -140,8 +140,12 @@ module.exports = (robot) => {
 
     if (args != 'daily' && args != 'specials'){
       getGameDesc(args).then(getPrice).then(data => {
-        sendMessage(`Game: ${data.name}\nValor original: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
-        console.log(data);
+        if (data.initial > data.final){
+          sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+        }
+        else{
+          sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
+        }
       }).catch(err => {
         msg.send('Actualmente _Steam_ no responde.');
         robot.emit('error', err || new Error(`Status code ${res.statusCode}`), msg);
