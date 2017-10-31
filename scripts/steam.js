@@ -150,7 +150,7 @@ module.exports = (robot) => {
       if (args != 'daily' && args != 'specials'){
         getGameDesc(full).then(getPrice).then(data => {
           if (data.initial > data.final){
-            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}-*)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
+            sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}* Off)\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);
           }
           else{
             sendMessage(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.initial}*\nDescripción: ${data.desc} <${data.uri}|Ver más>`, msg.message.room);          
