@@ -212,8 +212,7 @@ module.exports = (robot) => {
     else {
       commands.map(result => {
         sendMessage(result, msg.message.room)
-      })
-      //sendMessage("Comandos de Steam:\n`arturito steam daily` - Muestra la oferta del día.\n`arturito steam specials [n]` - Muestra el top n de ofertas especiales (Maximo 5).\n`arturito steam top [n]` - Muestra el top n de juegos mas vendidos.\n`arturito steam [Nombre Juego]` - Muestra información básica de un juego.", msg.message.room);      
+      })    
     }
   });
 }
