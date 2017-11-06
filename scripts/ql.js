@@ -16,7 +16,7 @@
 const wea = [
     `Cha, pero pa que po!`,
     `Weno y que pasa perkin ql!`,
-    `Te tiraste a la salida cochino ql!`,
+    `Te tiraste a la salida oe!`,
     `Pa' que tan zarpao peaso e' logi!`,
     `Seguro vo' soy muy vio zhii!`,
     `No pesco a wnes!`,
