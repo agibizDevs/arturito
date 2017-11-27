@@ -259,7 +259,7 @@ module.exports = robot => {
           <div class="column-5 column-center text-center">
             <h1>devsChile - Karma Todos</h1>
             <hr/>
-            <h2>Listado del karma de los usuarios de devschile.cl</h2>
+            <h2>Listado del karma de los usuarios</h2>
             <hr/>
           </div>
         </div>
