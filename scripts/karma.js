@@ -16,8 +16,8 @@
 //   @cvicuna
 
 module.exports = robot => {
-  const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080'
-  const hubotWebSite = `${hubotHost}/${robot.name}`
+  const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080/'
+  const hubotWebSite = `${hubotHost}${robot.name}`
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
