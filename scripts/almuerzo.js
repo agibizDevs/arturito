@@ -8,8 +8,8 @@
 // Author:
 //   @cvicuna based on devschile hubot
 
-let desayuno    = ["cereal","sandwich","frutas","desayuno dominó","quesillo + marmelada","huevos","lo mismo que ayer"];
-let almuerzo    = ["pescado","árabe/thai/india","pastas","sushi","china","sandwich","empanada","ensalada","pizza","chatarra","ceviche","carne/parrilla","lo mismo que ayer"];
+let desayuno    = ["cereal","sandwich","frutas","desayuno dominó","quesillo + marmelada","huevos", "café + galletas","lo mismo que ayer"];
+let almuerzo    = ["pescado","árabe/thai/india","pastas","sushi","china","sandwich","empanada","ensalada","pizza","chatarra","ceviche","carne/parrilla", "mechada","lo mismo que ayer"];
 let cena        = ["carne","pastas","árabe/thai/india","pizza","sanguche","lo mismo que ayer","lasagna","china"];
 let bebidas     = ['cerveza','agüita de hierba','piscola/roncola/whiscola','absenta','pájaro verde','vino tinto/blanco','lo mismo que ayer nomás'];
 let cervezas    = ['pale ale inglesa','brown ale inglesa','barley wine','scottish ale','ale belga','trapense belga','de abadía belga','pilsner alemana/checa','dunkel alemana/checa','marzenbier alemana','bock/doppelbock/maibock','weizenbier alemana','porter/stout','su escudo nomás','IPA','APA (gringa)'];

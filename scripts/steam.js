@@ -77,6 +77,7 @@ module.exports = (robot) => {
         let games = $('.search_result_row').slice(0, count).map(function() {
           return $(this).attr('data-ds-appid');
         }).get();
+        console.log(games);
         resolve(games);
       });
     });
@@ -89,6 +90,7 @@ module.exports = (robot) => {
         let games = $('.search_result_row').slice(0, count).map(function() {
           return $(this).attr('data-ds-appid');
         }).get();
+        console.log(games);
         resolve(games);
       });
     });
