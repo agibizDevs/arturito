@@ -127,8 +127,20 @@ module.exports = robot => {
         const arg = msg.match[1].split(' ')[1].trim();
     
         if (arg != 'help'){
-            if (arg === 'users') {
-                msg.send(`JSON de Usuarios: ${hubotWebSite}/brain/users`)
+            const thisUser = response.message.user
+            console.log(`username: ${thisUser}`)
+            if (thisUser.name.toLowerCase() !== 'cvicuna') {
+              return response.send('Tienes que ser :cvicuna: o :rorogallardo: para realizar esta función.')
+            }
+            else{
+                if (arg != 'users') {
+                    
+                }
+                else{
+                    if (arg === 'users') {
+                        msg.send(`JSON de Usuarios: ${hubotWebSite}/brain/users`)
+                    }
+                }
             }
         }
         else {
