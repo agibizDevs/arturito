@@ -129,8 +129,8 @@ module.exports = robot => {
         if (arg != 'help'){
             const thisUser = response.message.user
             console.log(`username: ${thisUser}`)
-            if (thisUser.name.toLowerCase() !== 'cvicuna') {
-              return response.send('Tienes que ser :cvicuna: o :rorogallardo: para realizar esta función.')
+            if (thisUser.name.toLowerCase() != 'cvicuna') {
+              return msg.send('Tienes que ser :cvicuna: o :rorogallardo: para realizar esta función.')
             }
             else{
                 if (arg != 'users') {
