@@ -108,6 +108,24 @@ module.exports = (robot) => {
         const final = price.final / 100;
         const initial = price.initial / 100;
         const discount = price.discount_percent;
+        return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`};
+      })
+      resolve(data);
+    })
+  }
+
+  const getDesc = id => {
+    const cookie = 'steamCountry=CL%7Cb8a8a3da46a6c324d177af2855ca3d9b;timezoneOffset=-10800,0;';
+    const uri = `http://store.steampowered.com/api/appdetails/?appids=${id}&cc=CL`;
+    return new Promise((resolve, reject) => {
+      const data = getBody(uri, {key: 'cookie', value: cookie}).then(body => {
+        const game = JSON.parse(body)[id].data;
+        const desc = game.short_description;
+        const name = game.name;
+        const price = game.price_overview;
+        const final = price.final / 100;
+        const initial = price.initial / 100;
+        const discount = price.discount_percent;
         return {name: name, final: final, initial: initial, discount: discount, uri: `https://store.steampowered.com/app/${id}`, desc: desc};
       })
       resolve(data);
@@ -198,7 +216,7 @@ module.exports = (robot) => {
       }
   
       if (args != 'daily' && args != 'specials' && args != 'top'){
-        getGameDesc(full).then(getPrice).then(data => {
+        getGameDesc(full).then(getDesc).then(data => {
           if (data.initial > data.final){
             msg.send(`Nombre del Juego: ${data.name}\nValor: $CLP *${data.final}* (*%${data.discount}* Off)\nDescripción: ${data.desc} <${data.uri}|Ver más>`);
           }
