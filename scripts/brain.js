@@ -1,19 +1,14 @@
 // Description:
-//   A simple karma tracking script for hubot.
+//  
 //
+
 // Commands:
-//   karma <name> - shows karma for the named user
+//   
 //
-// Notes
-//   <name>++ - adds karma to a user
-//   <name>-- - removes karma from a user
-//   Adaptado por @clsource Camilo Castro
-//   Basado en
-//   https://www.npmjs.com/package/hubot-karma
-//   Bug Fixes @cvicuna
-//
+
 // Author
 //   @cvicuna
+//
 
 module.exports = robot => {
     const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080/'
@@ -127,8 +122,8 @@ module.exports = robot => {
         const arg = msg.match[1].split(' ')[1].trim();
     
         if (arg != 'help'){
-            const thisUser = response.message.user
-            console.log(`username: ${thisUser}`)
+            const thisUser = msg.message.user
+            console.log(`username: ${thisUser.name}`)
             if (thisUser.name.toLowerCase() != 'cvicuna') {
               return msg.send('Tienes que ser :cvicuna: o :rorogallardo: para realizar esta función.')
             }
