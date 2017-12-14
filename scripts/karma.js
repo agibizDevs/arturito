@@ -16,8 +16,8 @@
 //   @cvicuna
 
 module.exports = robot => {
-  const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080'
-  const hubotWebSite = `${hubotHost}/${robot.name}`
+  const hubotHost = process.env.HEROKU_URL || process.env.HUBOT_URL || 'http://localhost:8080/'
+  const hubotWebSite = `${hubotHost}${robot.name}`
 
   const getCleanName = name => `${name[0]}.${name.substr(1)}`
 
@@ -248,16 +248,16 @@ module.exports = robot => {
     res.setHeader('content-type', 'text/html')
     res.end(`<html>
     <head>
-      <title>devsChile - Karma Todos</title>
+      <title>Karma Todos</title>
       <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Inconsolata:400,700"/>
       <link rel="stylesheet" type="text/css" href="//cdn.rawgit.com/mutable-tools/MutaGrid/master/demo/mutagrid/dist/5/mutagrid.min.css"/>
-      <style>body,html{height:100%;box-sizing:border-box}html{overflow-x:hidden}body{background:#000;color:#ddd;font-size:16px}body,code,pre{font-family:Inconsolata,monospace}code,h1,h2,h3,pre{color:#fff;font-weight:400}a{color:#e74c3c}.text-center{text-align:center}main{padding:5em 1.5em}h1{font-size:18px}h3{margin-top:20px}h2,h3{font-size:16px}hr{opacity:.4}</style>
+      <style>body,html{height:100%;box-sizing:border-box}html{overflow-x:hidden}body{background:#262626;color:#ddd;font-size:16px}body,code,pre{font-family:Inconsolata,monospace}code,h1,h2,h3,pre{color:#fff;font-weight:400}a{color:#e74c3c}.text-center{text-align:center}main{padding:5em 1.5em}h1{font-size:18px}h3{margin-top:20px}h2,h3{font-size:16px}hr{opacity:.4}</style>
     </head>
     <body>
       <main class="container">
         <div class="row">
           <div class="column-5 column-center text-center">
-            <h1>devsChile - Karma Todos</h1>
+            <h1>Karma Todos</h1>
             <hr/>
             <h2>Listado del karma de los usuarios</h2>
             <hr/>
