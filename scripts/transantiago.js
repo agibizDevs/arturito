@@ -8,6 +8,7 @@
 //   @rorogallardo
 
 
+var moment = require("moment-timezone");
 var generar = function(){
   var num_aleatorio = Math.round(Math.random()*(25000000-5000000))+5000000;
   var rut = new Rut(num_aleatorio.toString(), true);
@@ -47,7 +48,7 @@ module.exports = function(robot) {
     var resp = [];
     if(args){
       cod = args.toUpperCase();
-        var url = 'http://www.transantiago.cl/predictor/prediccion?codsimt='+cod+'&codser=';
+        var url = 'http://dev.adderou.cl/transanpbl/busdata.php?paradero='+cod;
         console.log("url solicitud : " + url);
         robot.http(url).get()(function (err,res,body) {
           if(err || res.statusCode !==200){
@@ -57,20 +58,16 @@ module.exports = function(robot) {
           }
           res.setEncoding('utf-8');
           var data = JSON.parse(body);
-          if(data.respuestaParadero.includes("invalido")){
+          data.servicios.forEach(function (serv) {
+            if(serv.valido == 0){
+              msg.send(`:warning: Recorrido : ${serv.servicio} Fuera de horario de operación.`);
+            }else{
+              msg.send(`:bus: Recorrido : ${serv.servicio}, Primer bus : :id: [ ${serv.patente} ] ${serv.distancia} a ${serv.tiempo} metros.`);
+            }
+          })
+          if(data.descripcion.includes("Paradero no")){
             msg.send(":exclamation: Código de parada incorrecto, verifique y re-intente");
             return;
-          }
-          if (data) {
-            data.servicios.item.forEach(function (flag) {
-              if(!flag.respuestaServicio.includes("Fuera")){
-                msg.send(`:bus: Recorrido : ${flag.servicio}, Primer bus : :id: [ ${flag.ppubus1} ] ${flag.horaprediccionbus1} a ${flag.distanciabus1} metros y el segundo : :id: [ ${flag.ppubus2} ] ${flag.horaprediccionbus2} a ${flag.distanciabus2} metros.`);
-              }else{
-                msg.send(`:warning: Recorrido : ${flag.servicio} Fuera de horario de operación.`);
-              }
-            });
-          } else {
-            msg.send('Error, porfavor, re-intente en un minuto');
           }
         });
     }
