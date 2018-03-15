@@ -17,7 +17,12 @@
 module.exports = function(robot) {
   robot.respond(/porn(.*)/i, function(msg) {
       console.log(`channel: ${msg.message.rawMessage.channel.name}`)
-      console.log(`channel2: ${msg.rawMessage.channel.name}`)
+      if (msg.message.rawMessage.channel.name != 'juegos'){
+        msg.send('OE! esa consulta solo se puede realizar en el canal #juegos');
+      }
+      else{
+        msg.send('cochinin cochinin!');
+      }
 /*     if (robot.golden.isGold(msg.message.user.name)) {
 
       var baseURL         = 'https://steppschuh-json-porn-v1.p.mashape.com/';
