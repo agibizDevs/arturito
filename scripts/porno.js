@@ -16,7 +16,8 @@
 
 module.exports = function(robot) {
   robot.respond(/porn(.*)/i, function(msg) {
-      console.log(msg.message.room)
+      console.log(msg.message)
+      console.log(`ROBOT: ${robot}`)
 /*     if (robot.golden.isGold(msg.message.user.name)) {
 
       var baseURL         = 'https://steppschuh-json-porn-v1.p.mashape.com/';
